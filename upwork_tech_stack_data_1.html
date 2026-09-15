@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upwork Country Tech Stack Data — 191 Countries</title>
+<style>
+  :root {
+    --bg: #0b1120;
+    --card: #1e293b;
+    --card2: #243357;
+    --border: #334155;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --red: #f87171;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 20px;
+    line-height: 1.5;
+  }
+  header { margin-bottom: 20px; }
+  h1 {
+    font-size: 1.7rem;
+    margin-bottom: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subtitle { color: var(--muted); font-size: 0.92rem; }
+
+  /* Stats */
+  .stat-bar { display: flex; flex-wrap: wrap; gap: 14px; margin: 18px 0; }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    flex: 1;
+    min-width: 150px;
+  }
+  .stat .label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat .value { font-size: 1.45rem; font-weight: 700; margin-top: 4px; }
+
+  /* Controls */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+    align-items: center;
+  }
+  .controls input, .controls select {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .controls input:focus, .controls select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.15);
+  }
+  .search-wrap { flex: 1; min-width: 240px; position: relative; }
+  .search-wrap input { width: 100%; padding-left: 38px; }
+  .search-wrap .icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1.1rem; }
+  .btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+  }
+  .btn:hover { background: var(--card2); border-color: var(--accent); }
+  .btn-primary { background: var(--accent); color: #0b1120; border-color: var(--accent); }
+  .btn-primary:hover { background: #0ea5e9; }
+  .count-pill {
+    background: var(--accent);
+    color: #0b1120;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.88rem;
+  }
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+    align-items: center;
+  }
+  .filter-row label { color: var(--muted); font-size: 0.85rem; font-weight: 600; }
+
+  /* Table */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--card);
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    min-width: 1700px;
+  }
+  thead th {
+    background: #0f1f3d;
+    color: var(--accent);
+    padding: 13px 10px;
+    text-align: left;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    border-bottom: 2px solid var(--border);
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  thead th:hover { background: #16264a; }
+  th .arrow { font-size: 0.68rem; opacity: 0.7; margin-left: 3px; }
+  td {
+    padding: 10px;
+    border-bottom: 1px solid #1a2742;
+    white-space: nowrap;
+  }
+  tbody tr:hover td { background: var(--card2); }
+  tbody tr:nth-child(even) td { background: #1a2540; }
+  tbody tr:nth-child(even):hover td { background: var(--card2); }
+  .country { font-weight: 700; color: #fff; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .num.zero { color: #475569; }
+  .num.high { color: var(--green); font-weight: 600; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+  .badge-medium { background: rgba(74,222,128,0.15); color: var(--green); }
+  .badge-low { background: rgba(251,191,36,0.15); color: var(--amber); }
+  .badge-verylow { background: rgba(248,113,113,0.15); color: var(--red); }
+  .badge-none { background: rgba(148,163,184,0.15); color: var(--muted); }
+  .note { color: var(--muted); font-size: 0.78rem; }
+  .top-stacks { max-width: 280px; white-space: normal; color: #c5d3ec; }
+  .footer { margin-top: 16px; color: var(--muted); font-size: 0.78rem; text-align: center; }
+  .no-results { text-align: center; padding: 40px; color: var(--muted); font-size: 1.1rem; }
+
+  /* Stack chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .chip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--text); }
+  .chip.active { background: var(--accent); color: #0b1120; border-color: var(--accent); }
+  .chips-label { color: var(--muted); font-size: 0.85rem; font-weight: 600; margin-right: 6px; align-self: center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Upwork Country Tech Stack Data</h1>
+  <p class="subtitle">191 countries · technology proxy respondents &amp; tracked stack usage · proxy survey estimates, not Upwork headcounts</p>
+</header>
+
+<div class="stat-bar" id="statBar"></div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <span class="icon">🔍</span>
+    <input type="text" id="search" placeholder="Search by country name or technology stack...">
+  </div>
+  <select id="qualityFilter">
+    <option value="">All data quality</option>
+    <option value="medium">Medium sample</option>
+    <option value="low">Low sample</option>
+    <option value="very low">Very low sample</option>
+    <option value="none">No observations</option>
+  </select>
+  <select id="sortSelect">
+    <option value="3-desc">Proxy respondents (high→low)</option>
+    <option value="3-asc">Proxy respondents (low→high)</option>
+    <option value="0-asc">Country (A→Z)</option>
+    <option value="0-desc">Country (Z→A)</option>
+    <option value="8-desc">JS/TS (high→low)</option>
+    <option value="9-desc">Python (high→low)</option>
+    <option value="22-desc">DevOps/Cloud (high→low)</option>
+  </select>
+  <select id="minThreshold">
+    <option value="0">Min respondents: 0</option>
+    <option value="10">Min respondents: 10</option>
+    <option value="50">Min respondents: 50</option>
+    <option value="100">Min respondents: 100</option>
+    <option value="500">Min respondents: 500</option>
+    <option value="1000">Min respondents: 1,000</option>
+  </select>
+  <button class="btn" id="resetBtn">↺ Reset</button>
+  <button class="btn btn-primary" id="exportBtn">⬇ Export CSV</button>
+  <span class="count-pill" id="rowCount">191</span>
+</div>
+
+<div class="chips" id="stackChips">
+  <span class="chips-label">Quick filter by stack:</span>
+</div>
+
+<div class="table-wrap">
+  <table id="tbl">
+    <thead>
+      <tr>
+        <th data-col="0">Country <span class="arrow"></span></th>
+        <th data-col="1">Reg. Status</th>
+        <th data-col="2">Freelancer Count</th>
+        <th data-col="3">Proxy Respondents <span class="arrow"></span></th>
+        <th data-col="4">Using ≥1 Stack</th>
+        <th data-col="5">Most Frequent Stacks</th>
+        <th data-col="6">Least/Unused Stacks</th>
+        <th data-col="7">Data Quality</th>
+        <th data-col="8">JS/TS</th>
+        <th data-col="9">Python</th>
+        <th data-col="10">PHP</th>
+        <th data-col="11">Java</th>
+        <th data-col="12">React</th>
+        <th data-col="13">Node.js</th>
+        <th data-col="14">WordPress</th>
+        <th data-col="15">.NET/C#</th>
+        <th data-col="16">Ruby/Rails</th>
+        <th data-col="17">Go</th>
+        <th data-col="18">Swift</th>
+        <th data-col="19">Kotlin</th>
+        <th data-col="20">Flutter</th>
+        <th data-col="21">Data Sci/ML</th>
+        <th data-col="22">DevOps/Cloud</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div class="no-results" id="noResults" style="display:none;">No countries match your filters. Try resetting.</div>
+</div>
+
+<p class="footer">All counts are proxy-based estimates, not official Upwork freelancer headcounts. "Not publicly disclosed" = Upwork does not publish per-country freelancer counts. Click any column header to sort.</p>
+
+<script>
+const STACK_NAMES = ["JavaScript/TypeScript","Python","PHP","Java","React","Node.js","WordPress",".NET/C#","Ruby/Rails","Go","Swift","Kotlin","Flutter","Data science/ML","DevOps/cloud"];
+const STACK_COLS = [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22];
+
+const DATA = [
+["Afghanistan","Inferred in scope; verify at registration","Not publicly disclosed",56,45,"DevOps/cloud (30); JavaScript/TypeScript (25); Python (25)","Lowest observed: Swift (3), Ruby/Rails (4), Flutter (5)","Proxy—low sample; not an Upwork headcount",25,25,15,12,11,10,6,13,4,7,3,5,5,8,30],
+["Albania","Inferred in scope; verify at registration","Not publicly disclosed",49,41,"DevOps/cloud (35); JavaScript/TypeScript (27); .NET/C# (17)","Unused in sample: Flutter","Proxy—very low sample; not an Upwork headcount",27,9,16,16,14,11,5,17,1,5,1,4,0,7,35],
+["Algeria","Inferred in scope; verify at registration","Not publicly disclosed",77,76,"DevOps/cloud (57); JavaScript/TypeScript (54); Python (37)","Unused in sample: Ruby/Rails, Go","Proxy—low sample; not an Upwork headcount",54,37,20,13,31,28,9,16,0,0,1,7,12,24,57],
+["Andorra","Inferred in scope; verify at registration","Not publicly disclosed",15,14,"DevOps/cloud (10); JavaScript/TypeScript (9); Python (8)","Unused in sample: WordPress, Ruby/Rails","Proxy—very low sample; not an Upwork headcount",9,8,5,5,3,4,0,6,0,2,1,1,1,3,10],
+["Angola","Inferred in scope; verify at registration","Not publicly disclosed",20,18,"DevOps/cloud (16); JavaScript/TypeScript (11); .NET/C# (9)","Unused in sample: Swift","Proxy—very low sample; not an Upwork headcount",11,9,4,5,4,7,3,9,1,1,0,2,2,9,16],
+["Antigua and Barbuda","Inferred in scope; verify at registration","Not publicly disclosed",5,3,"DevOps/cloud (3); Flutter (2); JavaScript/TypeScript (2)","Unused in sample: Python, React, Node.js, WordPress, .NET/C# (+5 more)","Proxy—very low sample; not an Upwork headcount",2,0,1,1,0,0,0,0,0,0,0,0,2,0,3],
+["Argentina","Inferred in scope; verify at registration","Not publicly disclosed",345,334,"DevOps/cloud (277); JavaScript/TypeScript (239); Python (162)","Lowest observed: Swift (10), Flutter (19), Kotlin (30)","Proxy—medium sample; not an Upwork headcount",239,162,74,97,132,128,35,82,33,67,10,30,19,78,277],
+["Armenia","Inferred in scope; verify at registration","Not publicly disclosed",58,55,"DevOps/cloud (44); JavaScript/TypeScript (32); Python (23)","Lowest observed: Ruby/Rails (1), WordPress (1), Flutter (2)","Proxy—low sample; not an Upwork headcount",32,23,5,13,15,19,1,14,1,9,4,6,2,14,44],
+["Australia","Inferred in scope; verify at registration","Not publicly disclosed",1260,1230,"DevOps/cloud (1018); JavaScript/TypeScript (873); Python (654)","Lowest observed: Flutter (62), Swift (71), Kotlin (86)","Proxy—medium sample; not an Upwork headcount",873,654,183,285,423,420,121,480,88,177,71,86,62,348,1018],
+["Austria","Inferred in scope; verify at registration","Not publicly disclosed",791,768,"DevOps/cloud (633); JavaScript/TypeScript (551); Python (407)","Lowest observed: Ruby/Rails (35), Swift (35), Flutter (59)","Proxy—medium sample; not an Upwork headcount",551,407,164,285,197,247,93,268,35,93,35,117,59,248,633],
+["Azerbaijan","Inferred in scope; verify at registration","Not publicly disclosed",27,25,"DevOps/cloud (20); JavaScript/TypeScript (17); Python (14)","Unused in sample: Flutter","Proxy—very low sample; not an Upwork headcount",17,14,4,10,11,7,4,8,1,5,3,2,0,6,20],
+["Bahamas","Inferred in scope; verify at registration","Not publicly disclosed",4,3,".NET/C# (2); DevOps/cloud (2); JavaScript/TypeScript (2)","Unused in sample: PHP, React, WordPress, Ruby/Rails, Go (+3 more)","Proxy—very low sample; not an Upwork headcount",2,2,0,1,0,1,0,2,0,0,0,0,0,1,2],
+["Bahrain","Inferred in scope; verify at registration","Not publicly disclosed",11,11,"JavaScript/TypeScript (10); .NET/C# (7); Java (7)","Lowest observed: Flutter (1), Kotlin (1), Ruby/Rails (1)","Proxy—very low sample; not an Upwork headcount",10,4,3,7,4,4,1,7,1,2,1,1,1,3,6],
+["Bangladesh","Inferred in scope; verify at registration","Not publicly disclosed",327,314,"DevOps/cloud (266); JavaScript/TypeScript (257); React (160)","Lowest observed: Ruby/Rails (6), Swift (10), Go (32)","Proxy—medium sample; not an Upwork headcount",257,144,99,98,160,144,60,68,6,32,10,33,47,75,266],
+["Barbados","Inferred in scope; verify at registration","Not publicly disclosed",6,6,"DevOps/cloud (6); .NET/C# (3); Data science/ML (2)","Unused in sample: Java, React, Node.js, WordPress, Ruby/Rails (+4 more)","Proxy—very low sample; not an Upwork headcount",2,1,2,0,0,0,0,3,0,0,0,0,0,2,6],
+["Belgium","Inferred in scope; verify at registration","Not publicly disclosed",526,510,"DevOps/cloud (422); JavaScript/TypeScript (360); Python (277)","Lowest observed: Ruby/Rails (23), Swift (23), Flutter (32)","Proxy—medium sample; not an Upwork headcount",360,277,98,188,131,168,42,194,23,60,23,50,32,161,422],
+["Belize","Inferred in scope; verify at registration","Not publicly disclosed",2,2,"Data science/ML (2); DevOps/cloud (2); Java (2)","Unused in sample: PHP, WordPress, Ruby/Rails, Go, Swift","Proxy—very low sample; not an Upwork headcount",1,2,0,2,1,2,0,1,0,0,0,1,1,2,2],
+["Benin","Inferred in scope; verify at registration","Not publicly disclosed",11,10,"JavaScript/TypeScript (9); DevOps/cloud (8); PHP (6)","Unused in sample: Ruby/Rails, Go, Swift","Proxy—very low sample; not an Upwork headcount",9,2,6,3,5,5,3,2,0,0,0,2,1,2,8],
+["Bhutan","Inferred in scope; verify at registration","Not publicly disclosed",3,3,"DevOps/cloud (3); JavaScript/TypeScript (3); Node.js (3)","Unused in sample: Go, Swift, Kotlin","Proxy—very low sample; not an Upwork headcount",3,2,1,1,2,3,1,1,1,0,0,0,1,1,3],
+["Bolivia","Inferred in scope; verify at registration","Not publicly disclosed",32,31,"DevOps/cloud (27); JavaScript/TypeScript (26); .NET/C# (16)","Lowest observed: Swift (1), Ruby/Rails (2), Kotlin (3)","Proxy—very low sample; not an Upwork headcount",26,11,9,7,13,16,5,16,2,4,1,3,6,6,27],
+["Bosnia and Herzegovina","Inferred in scope; verify at registration","Not publicly disclosed",62,59,"DevOps/cloud (53); JavaScript/TypeScript (48); React (23)","Lowest observed: Ruby/Rails (2), Swift (2), Kotlin (5)","Proxy—low sample; not an Upwork headcount",48,22,17,13,23,20,5,22,2,14,2,5,7,10,53],
+["Botswana","Inferred in scope; verify at registration","Not publicly disclosed",5,5,"JavaScript/TypeScript (4); DevOps/cloud (3); Java (3)","Unused in sample: WordPress, Ruby/Rails, Go, Swift, Kotlin (+1 more)","Proxy—very low sample; not an Upwork headcount",4,1,1,3,1,1,0,2,0,0,0,0,0,1,3],
+["Brazil","Inferred in scope; verify at registration","Not publicly disclosed",1375,1324,"DevOps/cloud (1135); JavaScript/TypeScript (986); Python (642)","Lowest observed: Swift (42), Ruby/Rails (116), WordPress (136)","Proxy—medium sample; not an Upwork headcount",986,642,290,423,495,541,136,379,116,183,42,138,148,376,1135],
+["Brunei Darussalam","Inferred in scope; verify at registration","Not publicly disclosed",3,3,"DevOps/cloud (3); JavaScript/TypeScript (3); Python (2)","Unused in sample: Java, Ruby/Rails, Go, Swift, Kotlin (+1 more)","Proxy—very low sample; not an Upwork headcount",3,2,1,0,1,1,1,1,0,0,0,0,0,1,3],
+["Bulgaria","Inferred in scope; verify at registration","Not publicly disclosed",319,307,"DevOps/cloud (245); JavaScript/TypeScript (221); Python (112)","Lowest observed: Swift (15), Flutter (16), Ruby/Rails (17)","Proxy—medium sample; not an Upwork headcount",221,112,72,90,99,101,39,101,17,36,15,28,16,60,245],
+["Burkina Faso","Inferred in scope; verify at registration","Not publicly disclosed",4,4,"DevOps/cloud (4); JavaScript/TypeScript (4); PHP (3)","Unused in sample: Python, .NET/C#, Ruby/Rails, Go, Swift (+2 more)","Proxy—very low sample; not an Upwork headcount",4,0,3,2,2,2,1,0,0,0,0,0,1,0,4],
+["Burundi","Inferred in scope; verify at registration","Not publicly disclosed",3,3,"DevOps/cloud (3); JavaScript/TypeScript (2); WordPress (2)","Unused in sample: React, Ruby/Rails, Go, Swift, Kotlin (+2 more)","Proxy—very low sample; not an Upwork headcount",2,1,1,1,0,1,2,1,0,0,0,0,0,0,3],
+["Cabo Verde","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Cambodia","Inferred in scope; verify at registration","Not publicly disclosed",22,22,"JavaScript/TypeScript (21); DevOps/cloud (19); Node.js (15)","Unused in sample: Ruby/Rails","Proxy—very low sample; not an Upwork headcount",21,9,11,12,10,15,2,8,0,4,1,4,6,3,19],
+["Cameroon","Inferred in scope; verify at registration","Not publicly disclosed",31,29,"DevOps/cloud (23); JavaScript/TypeScript (23); Python (14)","Lowest observed: Ruby/Rails (2), Kotlin (3), Swift (3)","Proxy—very low sample; not an Upwork headcount",23,14,11,12,12,12,10,4,2,5,3,3,7,9,23],
+["Canada","Inferred in scope; verify at registration","Not publicly disclosed",2104,2017,"DevOps/cloud (1631); JavaScript/TypeScript (1421); Python (1118)","Lowest observed: Swift (92), Flutter (116), Kotlin (141)","Proxy—medium sample; not an Upwork headcount",1421,1118,324,571,680,704,185,669,183,308,92,141,116,562,1631],
+["Central African Republic","Inferred in scope; verify at registration","Not publicly disclosed",1,1,".NET/C# (1); DevOps/cloud (1); Python (1)","Unused in sample: JavaScript/TypeScript, PHP, Java, React, Node.js (+6 more)","Proxy—very low sample; not an Upwork headcount",0,1,0,0,0,0,0,1,1,0,0,0,0,0,1],
+["Chad","Inferred in scope; verify at registration","Not publicly disclosed",1,1,"Python (1); .NET/C# (0); Data science/ML (0)","Unused in sample: JavaScript/TypeScript, PHP, Java, React, Node.js (+9 more)","Proxy—very low sample; not an Upwork headcount",0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Chile","Inferred in scope; verify at registration","Not publicly disclosed",133,130,"DevOps/cloud (107); JavaScript/TypeScript (92); Python (76)","Lowest observed: Swift (5), Flutter (9), Kotlin (9)","Proxy—low sample; not an Upwork headcount",92,76,21,31,54,57,16,38,14,18,5,9,9,36,107],
+["China","Inferred in scope; verify at registration","Not publicly disclosed",406,390,"DevOps/cloud (304); Python (233); JavaScript/TypeScript (232)","Lowest observed: Ruby/Rails (11), Swift (20), WordPress (28)","Proxy—medium sample; not an Upwork headcount",232,233,29,157,96,144,28,100,11,90,20,50,37,150,304],
+["Colombia","Inferred in scope; verify at registration","Not publicly disclosed",217,206,"DevOps/cloud (182); JavaScript/TypeScript (155); Python (103)","Lowest observed: Swift (3), Ruby/Rails (12), Flutter (18)","Proxy—medium sample; not an Upwork headcount",155,103,43,71,84,85,23,54,12,29,3,22,18,54,182],
+["Comoros","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Costa Rica","Inferred in scope; verify at registration","Not publicly disclosed",54,53,"DevOps/cloud (49); JavaScript/TypeScript (41); Python (23)","Lowest observed: Swift (1), Ruby/Rails (2), Kotlin (3)","Proxy—low sample; not an Upwork headcount",41,23,10,14,16,16,9,15,2,5,1,3,5,13,49],
+["Croatia","Inferred in scope; verify at registration","Not publicly disclosed",187,178,"DevOps/cloud (144); JavaScript/TypeScript (121); Python (86)","Lowest observed: Swift (4), Ruby/Rails (6), Flutter (10)","Proxy—low sample; not an Upwork headcount",121,86,30,57,52,54,15,60,6,23,4,21,10,38,144],
+["Cyprus","Inferred in scope; verify at registration","Not publicly disclosed",63,62,"DevOps/cloud (53); JavaScript/TypeScript (39); Python (33)","Lowest observed: Ruby/Rails (3), Flutter (7), Kotlin (7)","Proxy—low sample; not an Upwork headcount",39,33,14,12,22,20,7,14,3,14,7,7,7,12,53],
+["Czech Republic","Inferred in scope; verify at registration","Not publicly disclosed",714,696,"DevOps/cloud (544); JavaScript/TypeScript (455); Python (332)","Lowest observed: Swift (21), Ruby/Rails (26), Flutter (30)","Proxy—medium sample; not an Upwork headcount",455,332,156,196,194,210,75,269,26,67,21,84,30,172,544],
+["Côte d'Ivoire","Inferred in scope; verify at registration","Not publicly disclosed",14,14,"JavaScript/TypeScript (12); DevOps/cloud (11); PHP (9)","Unused in sample: Ruby/Rails, Go, Swift","Proxy—very low sample; not an Upwork headcount",12,4,9,4,5,8,3,4,0,0,0,1,5,1,11],
+["Democratic Republic of the Congo","Inferred in scope; verify at registration","Not publicly disclosed",3,3,"DevOps/cloud (3); JavaScript/TypeScript (3); .NET/C# (2)","Unused in sample: Java, Ruby/Rails, Go, Swift, Kotlin (+1 more)","Proxy—very low sample; not an Upwork headcount",3,2,1,0,1,1,1,2,0,0,0,0,0,1,3],
+["Denmark","Inferred in scope; verify at registration","Not publicly disclosed",504,488,"DevOps/cloud (411); JavaScript/TypeScript (307); Python (241)","Lowest observed: Swift (18), Ruby/Rails (21), WordPress (31)","Proxy—medium sample; not an Upwork headcount",307,241,77,106,121,135,31,230,21,67,18,43,39,131,411],
+["Djibouti","Inferred in scope; verify at registration","Not publicly disclosed",1,1,".NET/C# (1); DevOps/cloud (1); Data science/ML (0)","Unused in sample: JavaScript/TypeScript, Python, PHP, Java, React (+8 more)","Proxy—very low sample; not an Upwork headcount",0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+["Dominica","Inferred in scope; verify at registration","Not publicly disclosed",1,1,"Data science/ML (1); Python (1); .NET/C# (0)","Unused in sample: JavaScript/TypeScript, PHP, Java, React, Node.js (+8 more)","Proxy—very low sample; not an Upwork headcount",0,1,0,0,0,0,0,0,0,0,0,0,0,1,0],
+["Dominican Republic","Inferred in scope; verify at registration","Not publicly disclosed",47,46,"JavaScript/TypeScript (39); DevOps/cloud (37); React (25)","Lowest observed: Ruby/Rails (2), Swift (4), WordPress (5)","Proxy—very low sample; not an Upwork headcount",39,18,6,12,25,22,5,23,2,13,4,8,11,11,37],
+["Ecuador","Inferred in scope; verify at registration","Not publicly disclosed",54,50,"DevOps/cloud (41); JavaScript/TypeScript (37); Python (28)","Lowest observed: Ruby/Rails (2), Swift (3), Kotlin (6)","Proxy—low sample; not an Upwork headcount",37,28,15,20,19,27,8,17,2,7,3,6,8,24,41],
+["Egypt","Inferred in scope; verify at registration","Not publicly disclosed",262,254,"DevOps/cloud (196); JavaScript/TypeScript (187); Python (139)","Lowest observed: Ruby/Rails (11), Swift (16), Go (21)","Proxy—medium sample; not an Upwork headcount",187,139,46,60,89,99,22,79,11,21,16,27,38,69,196],
+["El Salvador","Inferred in scope; verify at registration","Not publicly disclosed",19,19,"DevOps/cloud (17); JavaScript/TypeScript (15); Python (12)","Unused in sample: Ruby/Rails, Swift, Kotlin","Proxy—very low sample; not an Upwork headcount",15,12,7,6,7,8,3,10,0,4,0,0,2,6,17],
+["Equatorial Guinea","Inferred in scope; verify at registration","Not publicly disclosed",1,1,".NET/C# (1); Data science/ML (1); DevOps/cloud (1)","Unused in sample: JavaScript/TypeScript, Python, PHP, Java, React (+5 more)","Proxy—very low sample; not an Upwork headcount",0,0,0,0,0,0,1,1,0,0,0,0,1,1,1],
+["Eritrea","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Estonia","Inferred in scope; verify at registration","Not publicly disclosed",110,108,"DevOps/cloud (85); JavaScript/TypeScript (80); Python (54)","Lowest observed: Flutter (6), Swift (6), Go (13)","Proxy—low sample; not an Upwork headcount",80,54,27,44,35,37,14,25,13,13,6,17,6,22,85],
+["Eswatini","Inferred in scope; verify at registration","Not publicly disclosed",4,4,".NET/C# (3); DevOps/cloud (3); JavaScript/TypeScript (3)","Unused in sample: PHP, WordPress, Ruby/Rails, Go, Swift (+2 more)","Proxy—very low sample; not an Upwork headcount",3,2,0,1,2,1,0,3,0,0,0,0,0,1,3],
+["Ethiopia","Inferred in scope; verify at registration","Not publicly disclosed",60,51,"JavaScript/TypeScript (43); DevOps/cloud (40); Node.js (29)","Unused in sample: Swift","Proxy—low sample; not an Upwork headcount",43,26,18,18,24,29,4,19,2,3,0,5,9,11,40],
+["Fiji","Inferred in scope; verify at registration","Not publicly disclosed",4,4,"DevOps/cloud (3); .NET/C# (2); JavaScript/TypeScript (2)","Unused in sample: Java, Ruby/Rails","Proxy—very low sample; not an Upwork headcount",2,2,1,0,1,1,1,2,0,1,1,1,1,1,3],
+["Finland","Inferred in scope; verify at registration","Not publicly disclosed",386,376,"DevOps/cloud (303); JavaScript/TypeScript (255); Python (206)","Lowest observed: Swift (9), Ruby/Rails (15), Flutter (20)","Proxy—medium sample; not an Upwork headcount",255,206,52,91,144,132,30,98,15,53,9,26,20,92,303],
+["France","Inferred in scope; verify at registration","Not publicly disclosed",2110,2052,"DevOps/cloud (1636); JavaScript/TypeScript (1410); Python (1186)","Lowest observed: Swift (77), Ruby/Rails (123), Flutter (157)","Proxy—medium sample; not an Upwork headcount",1410,1186,520,706,603,688,193,463,123,250,77,181,157,658,1636],
+["Gabon","Inferred in scope; verify at registration","Not publicly disclosed",4,4,"DevOps/cloud (2); Java (2); JavaScript/TypeScript (2)","Unused in sample: PHP, React, WordPress, Ruby/Rails, Go (+3 more)","Proxy—very low sample; not an Upwork headcount",2,2,0,2,0,2,0,1,0,0,0,0,0,1,2],
+["Gambia","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Georgia","Inferred in scope; verify at registration","Not publicly disclosed",94,93,"DevOps/cloud (80); JavaScript/TypeScript (56); Python (44)","Lowest observed: Flutter (3), WordPress (3), Kotlin (7)","Proxy—low sample; not an Upwork headcount",56,44,12,21,28,23,3,22,7,21,7,7,3,22,80],
+["Germany","Inferred in scope; verify at registration","Not publicly disclosed",4947,4800,"DevOps/cloud (3710); JavaScript/TypeScript (3057); Python (2640)","Lowest observed: Ruby/Rails (240), Swift (256), Flutter (330)","Proxy—medium sample; not an Upwork headcount",3057,2640,913,1818,1134,1431,433,1287,240,732,256,583,330,1476,3710],
+["Ghana","Inferred in scope; verify at registration","Not publicly disclosed",70,66,"DevOps/cloud (56); JavaScript/TypeScript (51); Python (34)","Unused in sample: Ruby/Rails","Proxy—low sample; not an Upwork headcount",51,34,17,23,31,29,11,14,0,8,2,4,16,25,56],
+["Greece","Inferred in scope; verify at registration","Not publicly disclosed",389,375,"DevOps/cloud (302); JavaScript/TypeScript (249); Python (180)","Lowest observed: Swift (8), Flutter (19), Ruby/Rails (22)","Proxy—medium sample; not an Upwork headcount",249,180,76,123,109,120,63,99,22,36,8,27,19,110,302],
+["Grenada","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Guatemala","Inferred in scope; verify at registration","Not publicly disclosed",41,41,"DevOps/cloud (35); JavaScript/TypeScript (31); .NET/C# (22)","Lowest observed: Swift (2), Kotlin (3), Ruby/Rails (3)","Proxy—very low sample; not an Upwork headcount",31,22,16,13,11,14,9,22,3,6,2,3,5,7,35],
+["Guinea","Inferred in scope; verify at registration","Not publicly disclosed",1,1,"DevOps/cloud (1); Java (1); JavaScript/TypeScript (1)","Unused in sample: Python, Node.js, WordPress, .NET/C#, Ruby/Rails (+5 more)","Proxy—very low sample; not an Upwork headcount",1,0,1,1,1,0,0,0,0,0,0,0,0,0,1],
+["Guinea-Bissau","Inferred in scope; verify at registration","Not publicly disclosed",2,1,"JavaScript/TypeScript (1); PHP (1); .NET/C# (0)","Unused in sample: Python, Java, React, Node.js, WordPress (+8 more)","Proxy—very low sample; not an Upwork headcount",1,0,1,0,0,0,0,0,0,0,0,0,0,0,0],
+["Guyana","Inferred in scope; verify at registration","Not publicly disclosed",3,3,"DevOps/cloud (3); JavaScript/TypeScript (3); .NET/C# (2)","Unused in sample: PHP, WordPress, Ruby/Rails, Go, Swift (+1 more)","Proxy—very low sample; not an Upwork headcount",3,2,0,1,1,1,0,2,0,0,0,0,1,2,3],
+["Haiti","Inferred in scope; verify at registration","Not publicly disclosed",1,1,".NET/C# (1); DevOps/cloud (1); JavaScript/TypeScript (1)","Unused in sample: Python, PHP, Java, WordPress, Ruby/Rails (+5 more)","Proxy—very low sample; not an Upwork headcount",1,0,0,0,1,1,0,1,0,0,0,0,0,0,1],
+["Holy See","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Honduras","Inferred in scope; verify at registration","Not publicly disclosed",16,15,"DevOps/cloud (15); JavaScript/TypeScript (13); Node.js (8)","Unused in sample: WordPress, Kotlin","Proxy—very low sample; not an Upwork headcount",13,6,5,6,7,8,0,6,2,3,2,0,2,5,15],
+["Hungary","Inferred in scope; verify at registration","Not publicly disclosed",396,379,"DevOps/cloud (284); JavaScript/TypeScript (271); Python (193)","Lowest observed: Ruby/Rails (11), Swift (16), WordPress (27)","Proxy—medium sample; not an Upwork headcount",271,193,86,130,119,128,27,155,11,53,16,41,34,98,284],
+["Iceland","Inferred in scope; verify at registration","Not publicly disclosed",31,29,"DevOps/cloud (26); JavaScript/TypeScript (23); Python (18)","Unused in sample: Swift","Proxy—very low sample; not an Upwork headcount",23,18,5,6,10,11,7,14,3,9,0,1,3,9,26],
+["India","Inferred in scope; verify at registration","Not publicly disclosed",4231,4022,"DevOps/cloud (3237); JavaScript/TypeScript (2823); Python (2128)","Lowest observed: Swift (141), Ruby/Rails (146), Kotlin (377)","Proxy—medium sample; not an Upwork headcount",2823,2128,722,1549,1710,1704,389,814,146,448,141,377,510,1344,3237],
+["Indonesia","Inferred in scope; verify at registration","Not publicly disclosed",354,344,"DevOps/cloud (299); JavaScript/TypeScript (272); PHP (173)","Lowest observed: Swift (13), Ruby/Rails (20), Kotlin (57)","Proxy—medium sample; not an Upwork headcount",272,173,173,122,140,154,68,108,20,97,13,57,85,115,299],
+["Iraq","Inferred in scope; verify at registration","Not publicly disclosed",44,42,"DevOps/cloud (31); JavaScript/TypeScript (31); Node.js (17)","Unused in sample: Ruby/Rails","Proxy—very low sample; not an Upwork headcount",31,16,10,7,15,17,4,13,0,5,2,2,12,9,31],
+["Ireland","Inferred in scope; verify at registration","Not publicly disclosed",270,265,"DevOps/cloud (228); JavaScript/TypeScript (180); Python (147)","Lowest observed: Flutter (13), Swift (15), Ruby/Rails (21)","Proxy—medium sample; not an Upwork headcount",180,147,31,92,94,78,29,88,21,38,15,26,13,78,228],
+["Israel","Inferred in scope; verify at registration","Not publicly disclosed",604,582,"DevOps/cloud (481); Python (360); JavaScript/TypeScript (359)","Lowest observed: Swift (16), Ruby/Rails (26), Flutter (28)","Proxy—medium sample; not an Upwork headcount",359,360,58,163,206,211,39,165,26,79,16,50,28,191,481],
+["Italy","Inferred in scope; verify at registration","Not publicly disclosed",1341,1293,"DevOps/cloud (1030); JavaScript/TypeScript (900); Python (698)","Lowest observed: Swift (58), Ruby/Rails (66), Kotlin (114)","Proxy—medium sample; not an Upwork headcount",900,698,386,519,386,456,196,442,66,156,58,114,131,377,1030],
+["Jamaica","Inferred in scope; verify at registration","Not publicly disclosed",11,11,"JavaScript/TypeScript (11); DevOps/cloud (8); .NET/C# (5)","Unused in sample: Swift, Data science/ML","Proxy—very low sample; not an Upwork headcount",11,5,5,3,3,4,1,5,1,2,0,2,3,0,8],
+["Japan","Inferred in scope; verify at registration","Not publicly disclosed",288,282,"DevOps/cloud (249); JavaScript/TypeScript (192); Python (167)","Lowest observed: WordPress (22), Flutter (23), Swift (25)","Proxy—medium sample; not an Upwork headcount",192,167,53,67,109,102,22,73,36,47,25,26,23,106,249],
+["Jordan","Inferred in scope; verify at registration","Not publicly disclosed",40,40,"DevOps/cloud (34); JavaScript/TypeScript (28); Python (16)","Lowest observed: Swift (2), Go (3), Ruby/Rails (3)","Proxy—very low sample; not an Upwork headcount",28,16,12,13,16,14,5,15,3,3,2,4,8,7,34],
+["Kazakhstan","Inferred in scope; verify at registration","Not publicly disclosed",81,78,"DevOps/cloud (66); JavaScript/TypeScript (42); Python (30)","Lowest observed: Ruby/Rails (3), WordPress (3), Flutter (4)","Proxy—low sample; not an Upwork headcount",42,30,13,22,20,18,3,20,3,12,6,8,4,16,66],
+["Kenya","Inferred in scope; verify at registration","Not publicly disclosed",180,175,"DevOps/cloud (158); JavaScript/TypeScript (137); Python (105)","Lowest observed: Swift (6), Ruby/Rails (15), Kotlin (23)","Proxy—low sample; not an Upwork headcount",137,105,49,54,76,83,26,41,15,29,6,23,28,54,158],
+["Kiribati","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Kosovo","Inferred in scope; verify at registration","Not publicly disclosed",18,18,"DevOps/cloud (15); JavaScript/TypeScript (15); Node.js (11)","Unused in sample: Go, Swift","Proxy—very low sample; not an Upwork headcount",15,8,5,10,10,11,5,8,2,0,0,4,1,5,15],
+["Kuwait","Inferred in scope; verify at registration","Not publicly disclosed",8,7,"Python (5); DevOps/cloud (4); JavaScript/TypeScript (4)","Unused in sample: PHP, WordPress, Go, Data science/ML","Proxy—very low sample; not an Upwork headcount",4,5,0,1,2,2,0,1,1,0,1,1,2,0,4],
+["Kyrgyzstan","Inferred in scope; verify at registration","Not publicly disclosed",44,42,"DevOps/cloud (30); JavaScript/TypeScript (24); Python (22)","Lowest observed: Swift (2), WordPress (2), Flutter (3)","Proxy—very low sample; not an Upwork headcount",24,22,3,14,14,12,2,6,3,4,2,4,3,8,30],
+["Laos","Inferred in scope; verify at registration","Not publicly disclosed",4,3,"DevOps/cloud (3); JavaScript/TypeScript (3); Node.js (2)","Unused in sample: Python, .NET/C#, Ruby/Rails, Go, Swift (+2 more)","Proxy—very low sample; not an Upwork headcount",3,0,1,1,2,2,1,0,0,0,0,0,1,0,3],
+["Latvia","Inferred in scope; verify at registration","Not publicly disclosed",128,125,"DevOps/cloud (108); JavaScript/TypeScript (87); Python (60)","Lowest observed: Swift (6), WordPress (6), Ruby/Rails (7)","Proxy—low sample; not an Upwork headcount",87,60,30,34,37,26,6,40,7,18,6,13,9,35,108],
+["Lebanon","Inferred in scope; verify at registration","Not publicly disclosed",46,45,"DevOps/cloud (35); JavaScript/TypeScript (35); Python (22)","Lowest observed: Ruby/Rails (3), Go (4), Swift (5)","Proxy—very low sample; not an Upwork headcount",35,22,18,19,16,18,11,18,3,4,5,6,12,12,35],
+["Lesotho","Inferred in scope; verify at registration","Not publicly disclosed",1,1,"Flutter (1); Java (1); JavaScript/TypeScript (1)","Unused in sample: PHP, React, Node.js, WordPress, .NET/C# (+6 more)","Proxy—very low sample; not an Upwork headcount",1,1,0,1,0,0,0,0,0,0,0,0,1,0,0],
+["Liberia","Inferred in scope; verify at registration","Not publicly disclosed",4,4,"DevOps/cloud (3); Python (3); JavaScript/TypeScript (2)","Unused in sample: Java, WordPress, .NET/C#, Ruby/Rails, Go (+1 more)","Proxy—very low sample; not an Upwork headcount",2,3,1,0,1,2,0,0,0,0,0,1,1,1,3],
+["Libya","Inferred in scope; verify at registration","Not publicly disclosed",4,4,"DevOps/cloud (4); JavaScript/TypeScript (3); Python (3)","Unused in sample: Java, WordPress, Ruby/Rails, Swift, Flutter (+1 more)","Proxy—very low sample; not an Upwork headcount",3,3,1,0,2,2,0,2,0,1,0,1,0,0,4],
+["Liechtenstein","Inferred in scope; verify at registration","Not publicly disclosed",4,4,"DevOps/cloud (4); JavaScript/TypeScript (3); Data science/ML (1)","Unused in sample: .NET/C#, Ruby/Rails, Swift, Kotlin, Flutter","Proxy—very low sample; not an Upwork headcount",3,1,1,1,1,1,1,0,0,1,0,0,0,1,4],
+["Lithuania","Inferred in scope; verify at registration","Not publicly disclosed",183,180,"DevOps/cloud (153); JavaScript/TypeScript (119); .NET/C# (62)","Lowest observed: Ruby/Rails (7), Swift (9), Flutter (11)","Proxy—low sample; not an Upwork headcount",119,59,45,47,54,49,18,62,7,13,9,22,11,30,153],
+["Luxembourg","Inferred in scope; verify at registration","Not publicly disclosed",40,39,"JavaScript/TypeScript (34); DevOps/cloud (31); Python (22)","Lowest observed: Ruby/Rails (1), Swift (1), Flutter (2)","Proxy—very low sample; not an Upwork headcount",34,22,7,19,12,13,4,9,1,3,1,5,2,8,31],
+["Madagascar","Inferred in scope; verify at registration","Not publicly disclosed",14,14,"JavaScript/TypeScript (12); DevOps/cloud (10); Node.js (7)","Unused in sample: Ruby/Rails, Go, Swift, Kotlin","Proxy—very low sample; not an Upwork headcount",12,5,6,4,7,7,1,2,0,0,0,0,2,3,10],
+["Malawi","Inferred in scope; verify at registration","Not publicly disclosed",12,10,"DevOps/cloud (8); JavaScript/TypeScript (8); Node.js (6)","Unused in sample: Ruby/Rails, Swift","Proxy—very low sample; not an Upwork headcount",8,4,3,5,5,6,1,3,0,2,0,4,3,3,8],
+["Malaysia","Inferred in scope; verify at registration","Not publicly disclosed",161,155,"JavaScript/TypeScript (129); DevOps/cloud (124); Python (77)","Lowest observed: Ruby/Rails (9), Swift (11), Go (14)","Proxy—low sample; not an Upwork headcount",129,77,49,54,61,59,29,62,9,14,11,18,29,53,124],
+["Maldives","Inferred in scope; verify at registration","Not publicly disclosed",16,14,"DevOps/cloud (12); JavaScript/TypeScript (10); Python (9)","Lowest observed: Go (1), Kotlin (1), Ruby/Rails (1)","Proxy—very low sample; not an Upwork headcount",10,9,5,3,6,6,2,7,1,1,1,1,5,8,12],
+["Mali","Inferred in scope; verify at registration","Not publicly disclosed",2,1,"DevOps/cloud (1); Flutter (1); Python (1)","Unused in sample: JavaScript/TypeScript, PHP, Java, React, Node.js (+7 more)","Proxy—very low sample; not an Upwork headcount",0,1,0,0,0,0,0,0,0,0,0,0,1,0,1],
+["Malta","Inferred in scope; verify at registration","Not publicly disclosed",29,29,"DevOps/cloud (27); JavaScript/TypeScript (20); .NET/C# (15)","Unused in sample: Ruby/Rails, Swift, Kotlin, Flutter","Proxy—very low sample; not an Upwork headcount",20,7,6,5,7,10,3,15,0,3,0,0,0,5,27],
+["Marshall Islands","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Mauritania","Inferred in scope; verify at registration","Not publicly disclosed",5,5,"DevOps/cloud (4); Java (4); JavaScript/TypeScript (4)","Unused in sample: Ruby/Rails, Go, Swift, Kotlin","Proxy—very low sample; not an Upwork headcount",4,4,3,4,3,1,1,1,0,0,0,0,3,2,4],
+["Mauritius","Inferred in scope; verify at registration","Not publicly disclosed",15,15,"JavaScript/TypeScript (12); DevOps/cloud (9); Node.js (8)","Unused in sample: Go, Swift, Kotlin, Flutter","Proxy—very low sample; not an Upwork headcount",12,6,7,4,7,8,2,5,1,0,0,0,0,5,9],
+["Mexico","Inferred in scope; verify at registration","Not publicly disclosed",402,387,"DevOps/cloud (324); JavaScript/TypeScript (307); Python (195)","Lowest observed: Swift (27), Ruby/Rails (28), Kotlin (37)","Proxy—medium sample; not an Upwork headcount",307,195,107,103,145,143,49,139,28,45,27,37,38,91,324],
+["Micronesia","Inferred in scope; verify at registration","Not publicly disclosed",1,1,".NET/C# (1); Data science/ML (1); DevOps/cloud (1)","Unused in sample: JavaScript/TypeScript, Python, PHP, Java, React (+7 more)","Proxy—very low sample; not an Upwork headcount",0,0,0,0,0,0,0,1,0,0,0,0,0,1,1],
+["Moldova","Inferred in scope; verify at registration","Not publicly disclosed",38,32,"DevOps/cloud (28); JavaScript/TypeScript (24); Java (12)","Lowest observed: Flutter (2), Swift (2), Kotlin (3)","Proxy—very low sample; not an Upwork headcount",24,12,10,12,12,11,4,11,4,4,2,3,2,5,28],
+["Monaco","Inferred in scope; verify at registration","Not publicly disclosed",3,3,"JavaScript/TypeScript (3); DevOps/cloud (2); Python (2)","Unused in sample: Go, Swift, Kotlin, Flutter","Proxy—very low sample; not an Upwork headcount",3,2,1,1,1,1,1,1,1,0,0,0,0,1,2],
+["Mongolia","Inferred in scope; verify at registration","Not publicly disclosed",10,10,"DevOps/cloud (9); JavaScript/TypeScript (8); React (7)","Unused in sample: Ruby/Rails, Swift","Proxy—very low sample; not an Upwork headcount",8,5,3,5,7,5,2,3,0,3,0,1,3,2,9],
+["Montenegro","Inferred in scope; verify at registration","Not publicly disclosed",27,27,"DevOps/cloud (22); JavaScript/TypeScript (21); Node.js (16)","Lowest observed: Ruby/Rails (1), Swift (1), Flutter (2)","Proxy—very low sample; not an Upwork headcount",21,10,3,6,15,16,2,8,1,6,1,4,2,7,22],
+["Morocco","Inferred in scope; verify at registration","Not publicly disclosed",98,93,"JavaScript/TypeScript (79); DevOps/cloud (75); Python (57)","Lowest observed: Ruby/Rails (3), Swift (5), Go (10)","Proxy—low sample; not an Upwork headcount",79,57,35,46,43,43,16,28,3,10,5,14,14,26,75],
+["Mozambique","Inferred in scope; verify at registration","Not publicly disclosed",7,7,"JavaScript/TypeScript (6); Python (4); DevOps/cloud (3)","Unused in sample: Ruby/Rails, Go, Swift, Flutter","Proxy—very low sample; not an Upwork headcount",6,4,2,3,2,3,1,2,0,0,0,3,0,1,3],
+["Myanmar","Inferred in scope; verify at registration","Not publicly disclosed",21,19,"DevOps/cloud (16); JavaScript/TypeScript (13); Node.js (11)","Lowest observed: Ruby/Rails (1), WordPress (1), Data science/ML (2)","Proxy—very low sample; not an Upwork headcount",13,4,8,6,10,11,1,3,1,3,2,2,4,2,16],
+["Namibia","Inferred in scope; verify at registration","Not publicly disclosed",5,4,".NET/C# (4); DevOps/cloud (4); JavaScript/TypeScript (4)","Unused in sample: Ruby/Rails, Swift, Flutter","Proxy—very low sample; not an Upwork headcount",4,2,1,2,2,1,1,4,0,1,0,1,0,2,4],
+["Nauru","Inferred in scope; verify at registration","Not publicly disclosed",1,1,"Kotlin (1); .NET/C# (0); Data science/ML (0)","Unused in sample: JavaScript/TypeScript, Python, PHP, Java, React (+9 more)","Proxy—very low sample; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],
+["Nepal","Inferred in scope; verify at registration","Not publicly disclosed",139,136,"DevOps/cloud (111); JavaScript/TypeScript (107); React (66)","Lowest observed: Ruby/Rails (3), Swift (7), Kotlin (10)","Proxy—low sample; not an Upwork headcount",107,53,36,43,66,64,18,47,3,17,7,10,22,35,111],
+["Netherlands","Inferred in scope; verify at registration","Not publicly disclosed",1449,1414,"DevOps/cloud (1160); JavaScript/TypeScript (997); Python (698)","Lowest observed: Swift (70), Ruby/Rails (85), Flutter (93)","Proxy—medium sample; not an Upwork headcount",997,698,343,424,401,451,147,472,85,201,70,196,93,364,1160],
+["New Zealand","Inferred in scope; verify at registration","Not publicly disclosed",396,382,"DevOps/cloud (318); JavaScript/TypeScript (277); Python (197)","Lowest observed: Flutter (16), Swift (18), WordPress (23)","Proxy—medium sample; not an Upwork headcount",277,197,59,79,127,126,23,148,31,42,18,32,16,79,318],
+["Nicaragua","Inferred in scope; verify at registration","Not publicly disclosed",21,21,"DevOps/cloud (16); JavaScript/TypeScript (14); .NET/C# (9)","Unused in sample: Swift","Proxy—very low sample; not an Upwork headcount",14,8,7,7,6,7,2,9,2,3,0,1,1,7,16],
+["Niger","Inferred in scope; verify at registration","Not publicly disclosed",1,1,".NET/C# (1); Data science/ML (1); DevOps/cloud (1)","Unused in sample: PHP, Java, React, Node.js, Go (+1 more)","Proxy—very low sample; not an Upwork headcount",1,1,0,0,0,0,1,1,1,0,1,0,1,1,1],
+["Nigeria","Inferred in scope; verify at registration","Not publicly disclosed",305,285,"DevOps/cloud (224); JavaScript/TypeScript (223); Python (131)","Lowest observed: Swift (13), Ruby/Rails (15), Kotlin (30)","Proxy—medium sample; not an Upwork headcount",223,131,68,62,131,127,40,61,15,34,13,30,44,65,224],
+["North Macedonia","Inferred in scope; verify at registration","Not publicly disclosed",36,34,"JavaScript/TypeScript (29); DevOps/cloud (25); Node.js (16)","Lowest observed: Flutter (1), Ruby/Rails (1), Swift (1)","Proxy—very low sample; not an Upwork headcount",29,13,10,11,11,16,4,7,1,3,1,3,1,5,25],
+["Norway","Inferred in scope; verify at registration","Not publicly disclosed",450,437,"DevOps/cloud (375); JavaScript/TypeScript (300); Python (211)","Lowest observed: Ruby/Rails (14), Swift (16), Flutter (20)","Proxy—medium sample; not an Upwork headcount",300,211,50,123,170,130,23,164,14,47,16,71,20,108,375],
+["Oman","Inferred in scope; verify at registration","Not publicly disclosed",8,8,".NET/C# (6); DevOps/cloud (6); JavaScript/TypeScript (6)","Unused in sample: Node.js, WordPress, Ruby/Rails, Go, Swift (+1 more)","Proxy—very low sample; not an Upwork headcount",6,3,1,3,2,0,0,6,0,0,0,1,0,3,6],
+["Pakistan","Inferred in scope; verify at registration","Not publicly disclosed",415,388,"DevOps/cloud (318); JavaScript/TypeScript (308); React (186)","Lowest observed: Ruby/Rails (20), Go (21), Swift (21)","Proxy—medium sample; not an Upwork headcount",308,173,123,90,186,174,105,107,20,21,21,33,53,109,318],
+["Palau","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Palestine","Inferred in scope; verify at registration","Not publicly disclosed",15,15,"DevOps/cloud (12); JavaScript/TypeScript (12); React (8)","Unused in sample: WordPress, Ruby/Rails","Proxy—very low sample; not an Upwork headcount",12,4,4,5,8,7,0,6,0,2,1,1,4,2,12],
+["Panama","Inferred in scope; verify at registration","Not publicly disclosed",18,16,"DevOps/cloud (14); JavaScript/TypeScript (14); React (10)","Unused in sample: Ruby/Rails, Swift","Proxy—very low sample; not an Upwork headcount",14,5,6,4,10,5,2,8,0,1,0,1,1,4,14],
+["Papua New Guinea","Inferred in scope; verify at registration","Not publicly disclosed",1,1,".NET/C# (1); JavaScript/TypeScript (1); PHP (1)","Unused in sample: Python, Java, React, Node.js, WordPress (+7 more)","Proxy—very low sample; not an Upwork headcount",1,0,1,0,0,0,0,1,0,0,0,0,0,0,0],
+["Paraguay","Inferred in scope; verify at registration","Not publicly disclosed",39,39,"DevOps/cloud (32); JavaScript/TypeScript (28); Python (18)","Lowest observed: Swift (1), Kotlin (3), Ruby/Rails (3)","Proxy—very low sample; not an Upwork headcount",28,18,8,17,15,10,3,12,3,4,1,3,4,12,32],
+["Peru","Inferred in scope; verify at registration","Not publicly disclosed",75,71,"DevOps/cloud (67); JavaScript/TypeScript (55); Node.js (34)","Lowest observed: Go (2), Swift (3), Flutter (7)","Proxy—low sample; not an Upwork headcount",55,33,16,26,27,34,13,25,7,2,3,7,7,21,67],
+["Philippines","Inferred in scope; verify at registration","Not publicly disclosed",196,188,"JavaScript/TypeScript (156); DevOps/cloud (148); Node.js (86)","Lowest observed: Swift (6), Ruby/Rails (12), Kotlin (14)","Proxy—low sample; not an Upwork headcount",156,82,65,66,73,86,33,71,12,22,6,14,18,43,148],
+["Poland","Inferred in scope; verify at registration","Not publicly disclosed",1534,1493,"DevOps/cloud (1232); JavaScript/TypeScript (940); Python (782)","Lowest observed: Swift (51), Ruby/Rails (76), Flutter (101)","Proxy—medium sample; not an Upwork headcount",940,782,239,460,467,459,128,459,76,204,51,178,101,390,1232],
+["Portugal","Inferred in scope; verify at registration","Not publicly disclosed",470,458,"DevOps/cloud (358); JavaScript/TypeScript (311); Python (204)","Lowest observed: Swift (24), Ruby/Rails (31), Flutter (34)","Proxy—medium sample; not an Upwork headcount",311,204,94,166,139,150,48,144,31,52,24,63,34,117,358],
+["Qatar","Inferred in scope; verify at registration","Not publicly disclosed",15,13,"DevOps/cloud (9); JavaScript/TypeScript (7); .NET/C# (5)","Unused in sample: Ruby/Rails, Go","Proxy—very low sample; not an Upwork headcount",7,4,4,4,3,3,1,5,0,0,1,1,2,5,9],
+["Republic of the Congo","Inferred in scope; verify at registration","Not publicly disclosed",8,8,"Python (6); DevOps/cloud (5); Data science/ML (4)","Unused in sample: Go, Swift, Kotlin","Proxy—very low sample; not an Upwork headcount",4,6,2,3,3,4,1,2,1,0,0,0,3,4,5],
+["Romania","Inferred in scope; verify at registration","Not publicly disclosed",439,428,"DevOps/cloud (351); JavaScript/TypeScript (286); Python (184)","Lowest observed: Swift (14), Ruby/Rails (21), Flutter (39)","Proxy—medium sample; not an Upwork headcount",286,184,82,144,127,132,41,142,21,44,14,41,39,114,351],
+["Rwanda","Inferred in scope; verify at registration","Not publicly disclosed",22,22,"DevOps/cloud (20); JavaScript/TypeScript (15); React (14)","Lowest observed: Go (2), Swift (3), Flutter (4)","Proxy—very low sample; not an Upwork headcount",15,13,8,10,14,12,6,8,5,2,3,5,4,10,20],
+["Saint Kitts and Nevis","Inferred in scope; verify at registration","Not publicly disclosed",1,1,"Data science/ML (1); JavaScript/TypeScript (1); Python (1)","Unused in sample: PHP, Java, React, Node.js, WordPress (+7 more)","Proxy—very low sample; not an Upwork headcount",1,1,0,0,0,0,0,0,0,0,0,0,0,1,0],
+["Saint Lucia","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Saint Vincent and the Grenadines","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Samoa","Inferred in scope; verify at registration","Not publicly disclosed",1,1,".NET/C# (1); DevOps/cloud (1); Flutter (1)","Unused in sample: React, WordPress, Ruby/Rails, Go, Swift (+2 more)","Proxy—very low sample; not an Upwork headcount",1,1,1,1,0,1,0,1,0,0,0,0,1,0,1],
+["San Marino","Inferred in scope; verify at registration","Not publicly disclosed",3,2,".NET/C# (2); DevOps/cloud (2); Go (2)","Unused in sample: PHP, React, WordPress, Ruby/Rails, Swift","Proxy—very low sample; not an Upwork headcount",2,1,0,1,0,2,0,2,0,2,0,1,1,1,2],
+["Sao Tome and Principe","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Saudi Arabia","Inferred in scope; verify at registration","Not publicly disclosed",56,55,"DevOps/cloud (50); JavaScript/TypeScript (42); .NET/C# (24)","Lowest observed: Go (5), Ruby/Rails (5), Swift (8)","Proxy—low sample; not an Upwork headcount",42,18,15,15,24,23,12,24,5,5,8,9,9,14,50],
+["Senegal","Inferred in scope; verify at registration","Not publicly disclosed",9,7,"DevOps/cloud (6); JavaScript/TypeScript (6); PHP (4)","Unused in sample: Go","Proxy—very low sample; not an Upwork headcount",6,3,4,3,3,3,2,2,2,0,2,1,1,1,6],
+["Serbia","Inferred in scope; verify at registration","Not publicly disclosed",245,238,"DevOps/cloud (203); JavaScript/TypeScript (172); Python (100)","Lowest observed: Swift (8), Flutter (17), Ruby/Rails (17)","Proxy—medium sample; not an Upwork headcount",172,100,52,72,84,82,21,75,17,37,8,29,17,56,203],
+["Seychelles","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Sierra Leone","Inferred in scope; verify at registration","Not publicly disclosed",3,3,"DevOps/cloud (2); Java (2); JavaScript/TypeScript (2)","Unused in sample: PHP, WordPress, .NET/C#, Ruby/Rails, Go (+2 more)","Proxy—very low sample; not an Upwork headcount",2,2,0,2,1,1,0,0,0,0,0,0,1,1,2],
+["Singapore","Inferred in scope; verify at registration","Not publicly disclosed",177,175,"DevOps/cloud (151); JavaScript/TypeScript (129); Python (110)","Lowest observed: Swift (6), Ruby/Rails (12), Kotlin (13)","Proxy—low sample; not an Upwork headcount",129,110,18,58,75,73,14,44,12,38,6,13,17,68,151],
+["Slovakia","Inferred in scope; verify at registration","Not publicly disclosed",248,243,"DevOps/cloud (188); JavaScript/TypeScript (158); Python (106)","Lowest observed: Ruby/Rails (7), Flutter (14), Swift (15)","Proxy—medium sample; not an Upwork headcount",158,106,61,77,64,75,23,85,7,35,15,33,14,62,188],
+["Slovenia","Inferred in scope; verify at registration","Not publicly disclosed",142,140,"DevOps/cloud (108); JavaScript/TypeScript (101); Python (67)","Lowest observed: Ruby/Rails (5), Swift (6), Flutter (7)","Proxy—low sample; not an Upwork headcount",101,67,33,53,32,30,14,57,5,20,6,11,7,40,108],
+["Solomon Islands","Inferred in scope; verify at registration","Not publicly disclosed",1,1,"Data science/ML (1); DevOps/cloud (1); .NET/C# (0)","Unused in sample: JavaScript/TypeScript, Python, PHP, Java, React (+8 more)","Proxy—very low sample; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+["Somalia","Inferred in scope; verify at registration","Not publicly disclosed",9,8,"JavaScript/TypeScript (8); DevOps/cloud (6); React (6)","Unused in sample: Ruby/Rails, Swift","Proxy—very low sample; not an Upwork headcount",8,3,3,3,6,5,4,4,0,1,0,3,4,2,6],
+["South Africa","Inferred in scope; verify at registration","Not publicly disclosed",358,350,"DevOps/cloud (296); JavaScript/TypeScript (252); Python (162)","Lowest observed: Ruby/Rails (15), Swift (16), Kotlin (36)","Proxy—medium sample; not an Upwork headcount",252,162,71,94,98,128,53,134,15,44,16,36,47,84,296],
+["South Korea","Inferred in scope; verify at registration","Not publicly disclosed",203,197,"DevOps/cloud (163); JavaScript/TypeScript (129); Python (116)","Lowest observed: Ruby/Rails (8), WordPress (8), Swift (14)","Proxy—medium sample; not an Upwork headcount",129,116,23,78,68,66,8,48,8,23,14,27,22,71,163],
+["South Sudan","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Spain","Inferred in scope; verify at registration","Not publicly disclosed",1123,1101,"DevOps/cloud (909); JavaScript/TypeScript (722); Python (551)","Lowest observed: Swift (51), Flutter (52), Ruby/Rails (58)","Proxy—medium sample; not an Upwork headcount",722,551,243,405,312,343,129,292,58,127,51,124,52,285,909],
+["Sri Lanka","Inferred in scope; verify at registration","Not publicly disclosed",163,156,"DevOps/cloud (139); JavaScript/TypeScript (132); Python (87)","Lowest observed: Ruby/Rails (7), Swift (12), Go (17)","Proxy—low sample; not an Upwork headcount",132,87,58,78,83,84,32,59,7,17,12,22,24,51,139],
+["Sudan","Inferred in scope; verify at registration","Not publicly disclosed",7,6,"DevOps/cloud (6); JavaScript/TypeScript (4); Node.js (4)","Unused in sample: Ruby/Rails, Swift","Proxy—very low sample; not an Upwork headcount",4,4,1,3,4,4,1,3,0,1,0,2,2,2,6],
+["Suriname","Inferred in scope; verify at registration","Not publicly disclosed",5,5,"DevOps/cloud (5); JavaScript/TypeScript (5); Node.js (4)","Unused in sample: Ruby/Rails, Swift, Kotlin, Flutter","Proxy—very low sample; not an Upwork headcount",5,1,2,1,4,4,2,2,0,1,0,0,0,2,5],
+["Sweden","Inferred in scope; verify at registration","Not publicly disclosed",1016,974,"DevOps/cloud (784); JavaScript/TypeScript (627); Python (457)","Lowest observed: Flutter (47), Swift (49), Ruby/Rails (50)","Proxy—medium sample; not an Upwork headcount",627,457,122,265,334,282,66,393,50,154,49,92,47,187,784],
+["Switzerland","Inferred in scope; verify at registration","Not publicly disclosed",876,837,"DevOps/cloud (689); JavaScript/TypeScript (574); Python (466)","Lowest observed: Swift (42), Ruby/Rails (49), Flutter (62)","Proxy—medium sample; not an Upwork headcount",574,466,187,326,207,245,80,275,49,111,42,78,62,289,689],
+["Taiwan","Inferred in scope; verify at registration","Not publicly disclosed",268,260,"DevOps/cloud (214); JavaScript/TypeScript (176); Python (136)","Lowest observed: Ruby/Rails (9), Kotlin (14), Swift (16)","Proxy—medium sample; not an Upwork headcount",176,136,42,76,69,91,25,88,9,43,16,14,18,83,214],
+["Tajikistan","Inferred in scope; verify at registration","Not publicly disclosed",7,5,"DevOps/cloud (4); Python (4); JavaScript/TypeScript (3)","Unused in sample: Java, WordPress, Ruby/Rails, Swift, Kotlin (+1 more)","Proxy—very low sample; not an Upwork headcount",3,4,1,0,1,1,0,1,0,1,0,0,0,1,4],
+["Tanzania","Inferred in scope; verify at registration","Not publicly disclosed",28,28,"DevOps/cloud (25); JavaScript/TypeScript (24); Java (16)","Lowest observed: Go (1), Swift (1), WordPress (3)","Proxy—very low sample; not an Upwork headcount",24,12,12,16,12,12,3,9,4,1,1,5,10,6,25],
+["Thailand","Inferred in scope; verify at registration","Not publicly disclosed",147,140,"DevOps/cloud (126); JavaScript/TypeScript (115); Python (73)","Lowest observed: Ruby/Rails (9), Swift (14), Flutter (16)","Proxy—low sample; not an Upwork headcount",115,73,33,46,59,67,23,51,9,28,14,21,16,49,126],
+["Timor-Leste","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Togo","Inferred in scope; verify at registration","Not publicly disclosed",9,8,"JavaScript/TypeScript (7); DevOps/cloud (6); Java (4)","Unused in sample: React, Ruby/Rails, Go, Swift, Kotlin","Proxy—very low sample; not an Upwork headcount",7,3,2,4,0,3,1,1,0,0,0,0,3,3,6],
+["Tonga","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Trinidad and Tobago","Inferred in scope; verify at registration","Not publicly disclosed",8,8,"DevOps/cloud (7); Data science/ML (4); JavaScript/TypeScript (4)","Unused in sample: Ruby/Rails, Go, Kotlin, Flutter","Proxy—very low sample; not an Upwork headcount",4,4,4,3,2,1,3,2,0,0,1,0,0,4,7],
+["Tunisia","Inferred in scope; verify at registration","Not publicly disclosed",71,67,"JavaScript/TypeScript (58); DevOps/cloud (55); Python (31)","Lowest observed: Ruby/Rails (1), Swift (1), Kotlin (7)","Proxy—low sample; not an Upwork headcount",58,31,23,25,26,22,7,19,1,10,1,7,12,15,55],
+["Turkey","Inferred in scope; verify at registration","Not publicly disclosed",546,524,"DevOps/cloud (435); JavaScript/TypeScript (356); .NET/C# (250)","Lowest observed: Ruby/Rails (13), Swift (33), Kotlin (65)","Proxy—medium sample; not an Upwork headcount",356,248,90,170,187,197,73,250,13,69,33,65,76,158,435],
+["Turkmenistan","Inferred in scope; verify at registration","Not publicly disclosed",11,11,"JavaScript/TypeScript (10); DevOps/cloud (8); Python (6)","Lowest observed: Java (1), Swift (1), .NET/C# (2)","Proxy—very low sample; not an Upwork headcount",10,6,5,1,5,4,2,2,2,3,1,2,4,3,8],
+["Tuvalu","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Uganda","Inferred in scope; verify at registration","Not publicly disclosed",39,37,"DevOps/cloud (33); JavaScript/TypeScript (26); Python (23)","Unused in sample: Ruby/Rails","Proxy—very low sample; not an Upwork headcount",26,23,12,15,15,12,9,12,0,3,2,4,8,15,33],
+["Ukraine","Inferred in scope; verify at registration","Not publicly disclosed",2672,2618,"DevOps/cloud (2294); JavaScript/TypeScript (1647); Python (961)","Lowest observed: Ruby/Rails (90), Swift (102), Flutter (131)","Proxy—medium sample; not an Upwork headcount",1647,961,396,664,838,750,150,677,90,338,102,209,131,529,2294],
+["United Arab Emirates","Inferred in scope; verify at registration","Not publicly disclosed",130,124,"DevOps/cloud (105); JavaScript/TypeScript (98); Python (64)","Lowest observed: Ruby/Rails (8), Swift (11), Kotlin (16)","Proxy—low sample; not an Upwork headcount",98,64,33,40,58,55,22,42,8,18,11,16,17,36,105],
+["United Kingdom","Inferred in scope; verify at registration","Not publicly disclosed",3224,3133,"DevOps/cloud (2563); JavaScript/TypeScript (2147); Python (1634)","Lowest observed: Flutter (126), Swift (160), Ruby/Rails (174)","Proxy—medium sample; not an Upwork headcount",2147,1634,494,701,962,937,271,1175,174,429,160,238,126,856,2563],
+["United States","Inferred in scope; verify at registration","Not publicly disclosed",11095,10696,"DevOps/cloud (8673); JavaScript/TypeScript (7386); Python (6238)","Lowest observed: Flutter (428), Swift (683), Kotlin (821)","Proxy—medium sample; not an Upwork headcount",7386,6238,1343,2949,3506,3463,881,3436,938,1700,683,821,428,3344,8673],
+["Uruguay","Inferred in scope; verify at registration","Not publicly disclosed",94,93,"DevOps/cloud (75); JavaScript/TypeScript (68); Python (43)","Lowest observed: Swift (4), WordPress (6), Go (8)","Proxy—low sample; not an Upwork headcount",68,43,12,29,34,35,6,28,10,8,4,8,9,20,75],
+["Uzbekistan","Inferred in scope; verify at registration","Not publicly disclosed",62,61,"DevOps/cloud (48); JavaScript/TypeScript (39); Python (21)","Unused in sample: WordPress, Swift","Proxy—low sample; not an Upwork headcount",39,21,8,16,19,20,0,15,2,3,0,9,4,16,48],
+["Vanuatu","Inferred in scope; verify at registration","Not publicly disclosed",0,0,"No country observations in proxy","All tracked stacks unobserved in proxy","No proxy observations; not an Upwork headcount",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+["Venezuela","Inferred in scope; verify at registration","Not publicly disclosed",69,65,"JavaScript/TypeScript (54); DevOps/cloud (48); Python (25)","Lowest observed: Flutter (1), Swift (1), Ruby/Rails (3)","Proxy—low sample; not an Upwork headcount",54,25,24,16,25,24,17,14,3,6,1,5,1,9,48],
+["Vietnam","Inferred in scope; verify at registration","Not publicly disclosed",296,280,"DevOps/cloud (233); JavaScript/TypeScript (217); Python (137)","Lowest observed: Ruby/Rails (13), Swift (15), WordPress (25)","Proxy—medium sample; not an Upwork headcount",217,137,53,126,121,118,25,99,13,38,15,29,27,88,233],
+["Yemen","Inferred in scope; verify at registration","Not publicly disclosed",18,15,"DevOps/cloud (13); JavaScript/TypeScript (12); Python (10)","Unused in sample: Go, Swift","Proxy—very low sample; not an Upwork headcount",12,10,6,4,4,6,1,9,1,0,0,2,5,4,13],
+["Zambia","Inferred in scope; verify at registration","Not publicly disclosed",15,13,"DevOps/cloud (12); Python (8); React (8)","Unused in sample: Go, Swift","Proxy—very low sample; not an Upwork headcount",7,8,3,4,8,4,6,6,1,0,0,1,3,4,12],
+["Zimbabwe","Inferred in scope; verify at registration","Not publicly disclosed",26,26,"DevOps/cloud (24); JavaScript/TypeScript (18); Python (17)","Unused in sample: Swift","Proxy—very low sample; not an Upwork headcount",18,17,8,7,12,12,7,10,2,3,0,2,7,12,24]
+];
+
+function qualityClass(note) {
+  const n = note.toLowerCase();
+  if (n.includes('medium')) return 'badge-medium';
+  if (n.includes('low sample')) return 'badge-low';
+  if (n.includes('very low')) return 'badge-verylow';
+  return 'badge-none';
+}
+function qualityLabel(note) {
+  const n = note.toLowerCase();
+  if (n.includes('medium')) return 'medium';
+  if (n.includes('low sample')) return 'low';
+  if (n.includes('very low')) return 'very low';
+  return 'none';
+}
+
+const tbody = document.getElementById('tbody');
+const search = document.getElementById('search');
+const qualityFilter = document.getElementById('qualityFilter');
+const sortSelect = document.getElementById('sortSelect');
+const minThreshold = document.getElementById('minThreshold');
+const rowCount = document.getElementById('rowCount');
+const statBar = document.getElementById('statBar');
+const noResults = document.getElementById('noResults');
+const resetBtn = document.getElementById('resetBtn');
+const exportBtn = document.getElementById('exportBtn');
+
+let sortCol = 3, sortAsc = false;
+let activeStackFilter = null;
+
+// Build stack chips
+const chipsContainer = document.getElementById('stackChips');
+STACK_NAMES.forEach((name, i) => {
+  const chip = document.createElement('span');
+  chip.className = 'chip';
+  chip.textContent = name;
+  chip.dataset.col = STACK_COLS[i];
+  chip.addEventListener('click', () => {
+    if (activeStackFilter === STACK_COLS[i]) {
+      activeStackFilter = null;
+      chip.classList.remove('active');
+    } else {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      activeStackFilter = STACK_COLS[i];
+      chip.classList.add('active');
+    }
+    render();
+  });
+  chipsContainer.appendChild(chip);
+});
+
+function render() {
+  const q = search.value.toLowerCase().trim();
+  const qf = qualityFilter.value;
+  const min = parseInt(minThreshold.value);
+
+  let rows = DATA.filter(r => {
+    const matchSearch = !q || r[0].toLowerCase().includes(q) || r[5].toLowerCase().includes(q) || r[6].toLowerCase().includes(q);
+    const ql = qualityLabel(r[7]);
+    const matchQ = !qf || ql === qf;
+    const matchMin = r[3] >= min;
+    const matchStack = activeStackFilter === null || r[activeStackFilter] > 0;
+    return matchSearch && matchQ && matchMin && matchStack;
+  });
+
+  rows.sort((a, b) => {
+    let av = a[sortCol], bv = b[sortCol];
+    if (typeof av === 'number' && typeof bv === 'number') {
+      return sortAsc ? av - bv : bv - av;
+    }
+    return sortAsc ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
+  });
+
+  if (rows.length === 0) {
+    tbody.innerHTML = '';
+    noResults.style.display = 'block';
+  } else {
+    noResults.style.display = 'none';
+    tbody.innerHTML = rows.map(r => {
+      const numCells = STACK_COLS.map(i => {
+        const v = r[i];
+        let cls = 'num';
+        if (v === 0) cls += ' zero';
+        else if (v >= 100) cls += ' high';
+        return `<td class="${cls}">${v}</td>`;
+      }).join('');
+      return `<tr>
+        <td class="country">${r[0]}</td>
+        <td class="note">${r[1]}</td>
+        <td class="note">${r[2]}</td>
+        <td class="num high">${r[3]}</td>
+        <td class="num">${r[4]}</td>
+        <td class="top-stacks">${r[5]}</td>
+        <td class="top-stacks">${r[6]}</td>
+        <td><span class="badge ${qualityClass(r[7])}">${qualityLabel(r[7])}</span></td>
+        ${numCells}
+      </tr>`;
+    }).join('');
+  }
+  rowCount.textContent = rows.length;
+}
+
+// Stats
+const totalRespondents = DATA.reduce((s, r) => s + r[3], 0);
+const totalUsing = DATA.reduce((s, r) => s + r[4], 0);
+const countriesObs = DATA.filter(r => r[3] > 0).length;
+const topCountry = [...DATA].sort((a, b) => b[3] - a[3])[0];
+statBar.innerHTML = `
+  <div class="stat"><div class="label">Total Countries</div><div class="value">${DATA.length}</div></div>
+  <div class="stat"><div class="label">Countries w/ Observations</div><div class="value">${countriesObs}</div></div>
+  <div class="stat"><div class="label">Total Proxy Respondents</div><div class="value">${totalRespondents.toLocaleString()}</div></div>
+  <div class="stat"><div class="label">Using ≥1 Stack</div><div class="value">${totalUsing.toLocaleString()}</div></div>
+  <div class="stat"><div class="label">Top Country</div><div class="value" style="font-size:1.1rem">${topCountry[0]}<br><span style="font-size:0.85rem;color:var(--muted)">${topCountry[3].toLocaleString()} respondents</span></div></div>
+`;
+
+// Sort by clicking headers
+document.querySelectorAll('thead th').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = parseInt(th.dataset.col);
+    if (sortCol === col) sortAsc = !sortAsc;
+    else { sortCol = col; sortAsc = false; }
+    document.querySelectorAll('th .arrow').forEach(a => a.textContent = '');
+    th.querySelector('.arrow').textContent = sortAsc ? '▲' : '▼';
+    render();
+  });
+});
+
+// Sort dropdown
+sortSelect.addEventListener('change', () => {
+  const [col, dir] = sortSelect.value.split('-');
+  sortCol = parseInt(col);
+  sortAsc = dir === 'asc';
+  document.querySelectorAll('th .arrow').forEach(a => a.textContent = '');
+  const activeTh = document.querySelector(`th[data-col="${sortCol}"]`);
+  if (activeTh) activeTh.querySelector('.arrow').textContent = sortAsc ? '▲' : '▼';
+  render();
+});
+
+search.addEventListener('input', render);
+qualityFilter.addEventListener('change', render);
+minThreshold.addEventListener('change', render);
+
+// Reset
+resetBtn.addEventListener('click', () => {
+  search.value = '';
+  qualityFilter.value = '';
+  sortSelect.value = '3-desc';
+  minThreshold.value = '0';
+  sortCol = 3; sortAsc = false;
+  activeStackFilter = null;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('th .arrow').forEach(a => a.textContent = '');
+  document.querySelector('th[data-col="3"] .arrow').textContent = '▼';
+  render();
+});
+
+// Export CSV
+exportBtn.addEventListener('click', () => {
+  const q = search.value.toLowerCase().trim();
+  const qf = qualityFilter.value;
+  const min = parseInt(minThreshold.value);
+  let rows = DATA.filter(r => {
+    const matchSearch = !q || r[0].toLowerCase().includes(q) || r[5].toLowerCase().includes(q) || r[6].toLowerCase().includes(q);
+    const ql = qualityLabel(r[7]);
+    const matchQ = !qf || ql === qf;
+    const matchMin = r[3] >= min;
+    const matchStack = activeStackFilter === null || r[activeStackFilter] > 0;
+    return matchSearch && matchQ && matchMin && matchStack;
+  });
+  const headers = ["Country","Reg Status","Freelancer Count","Proxy Respondents","Using >=1 Stack","Most Frequent Stacks","Least/Unused Stacks","Data Quality","JS/TS","Python","PHP","Java","React","Node.js","WordPress",".NET/C#","Ruby/Rails","Go","Swift","Kotlin","Flutter","Data Sci/ML","DevOps/Cloud"];
+  const csv = [headers.join(',')].concat(rows.map(r => r.map(c => {
+    const s = String(c);
+    return s.includes(',') || s.includes('"') ? `"${s.replace(/"/g,'""')}"` : s;
+  }).join(','))).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'upwork_tech_stack_filtered.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// Initial sort arrow
+document.querySelector('th[data-col="3"] .arrow').textContent = '▼';
+render();
+</script>
+</body>
+</html>
