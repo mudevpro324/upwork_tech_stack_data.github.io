@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upwork IT Category Keyword Map 2026</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --border: #e2e6ed;
+    --accent: #14a800;
+    --accent2: #1f57c3;
+    --accent3: #6a3de8;
+    --text: #1a1a2e;
+    --muted: #5f6b7c;
+    --tag-bg: #eef2ff;
+    --tag-text: #3a55c9;
+    --tag-bg2: #e6f9f0;
+    --tag-text2: #0d7a3e;
+    --tag-bg3: #fdf3e3;
+    --tag-text3: #b35a00;
+    --tag-bg4: #f3e8ff;
+    --tag-text4: #6a3de8;
+    --hot: #e8423f;
+    --section-header: #f0f4ff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #11131a;
+      --card: #1c1f2b;
+      --border: #2d3145;
+      --text: #e8eaf2;
+      --muted: #8892a4;
+      --tag-bg: #1e2547;
+      --tag-text: #8aaaf5;
+      --tag-bg2: #0d2e1c;
+      --tag-text2: #4cd98a;
+      --tag-bg3: #2e1e05;
+      --tag-text3: #f5a84d;
+      --tag-bg4: #1e1035;
+      --tag-text4: #b58ef5;
+      --section-header: #1a1f35;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px 16px 60px;
+    line-height: 1.6;
+  }
+  header {
+    max-width: 900px;
+    margin: 0 auto 32px;
+    text-align: center;
+  }
+  header h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 0.93rem;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: 6px;
+    vertical-align: middle;
+    letter-spacing: 0.04em;
+  }
+  .badge.hot { background: var(--hot); }
+  .badge.rising { background: var(--accent2); }
+
+  .filter-bar {
+    max-width: 900px;
+    margin: 0 auto 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .filter-btn {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    font-size: 0.82rem;
+    padding: 5px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--accent2);
+    color: #fff;
+    border-color: var(--accent2);
+  }
+
+  .search-box {
+    max-width: 900px;
+    margin: 0 auto 20px;
+  }
+  .search-box input {
+    width: 100%;
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    color: var(--text);
+    font-size: 0.93rem;
+    font-family: inherit;
+    outline: none;
+  }
+  .search-box input:focus { border-color: var(--accent2); }
+  .search-box input::placeholder { color: var(--muted); }
+
+  .grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.15s;
+  }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 20px 14px;
+    background: var(--section-header);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+  .card-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .card-title { flex: 1; }
+  .card-title h2 {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 3px;
+  }
+  .card-title p {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .chevron {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 4px;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .card.open .chevron { transform: rotate(180deg); }
+
+  .card-body {
+    display: none;
+    padding: 16px 20px 20px;
+  }
+  .card.open .card-body { display: block; }
+
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    margin-top: 14px;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .tag {
+    font-size: 0.78rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .tag.search  { background: var(--tag-bg);  color: var(--tag-text); }
+  .tag.tech    { background: var(--tag-bg2); color: var(--tag-text2); font-family: monospace; font-size: 0.77rem; }
+  .tag.jd      { background: var(--tag-bg3); color: var(--tag-text3); }
+  .tag.niche   { background: var(--tag-bg4); color: var(--tag-text4); }
+
+  .legend {
+    max-width: 900px;
+    margin: 0 auto 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.79rem;
+    color: var(--muted);
+  }
+  .legend span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .growth-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .growth-fill {
+    height: 6px;
+    border-radius: 4px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .growth-fill.hot { background: var(--hot); }
+  .growth-fill.rising { background: var(--accent2); }
+  .growth-fill.stable { background: #94a3b8; }
+
+  footer {
+    max-width: 900px;
+    margin: 40px auto 0;
+    font-size: 0.78rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+  }
+  .hidden { display: none !important; }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.35rem; }
+    .card-header { padding: 14px 14px 12px; }
+    .card-body { padding: 12px 14px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🔍 Upwork IT Category Keyword Map</h1>
+  <p>Service categories, client search terms, technology stacks & job description keywords — compiled from Upwork marketplace data, In-Demand Skills 2026 report, and live job postings.</p>
+</header>
+
+<div class="legend">
+  <span><span class="dot" style="background:#3a55c9"></span> Search keywords (what clients type)</span>
+  <span><span class="dot" style="background:#0d7a3e"></span> Technology stack terms</span>
+  <span><span class="dot" style="background:#b35a00"></span> Job description terms</span>
+  <span><span class="dot" style="background:#6a3de8"></span> Niche / category-specific terms</span>
+</div>
+
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="Filter by keyword (e.g. React, Flutter, LLM, AWS…)" oninput="filterCards()">
+</div>
+
+<div class="filter-bar" id="filterBar">
+  <button class="filter-btn active" onclick="filterByGroup('all', this)">All Categories</button>
+  <button class="filter-btn" onclick="filterByGroup('ai', this)">🤖 AI / ML</button>
+  <button class="filter-btn" onclick="filterByGroup('dev', this)">💻 Development</button>
+  <button class="filter-btn" onclick="filterByGroup('mobile', this)">📱 Mobile</button>
+  <button class="filter-btn" onclick="filterByGroup('data', this)">📊 Data</button>
+  <button class="filter-btn" onclick="filterByGroup('infra', this)">☁️ Cloud/DevOps</button>
+  <button class="filter-btn" onclick="filterByGroup('security', this)">🔐 Security</button>
+  <button class="filter-btn" onclick="filterByGroup('ecom', this)">🛒 E-commerce</button>
+  <button class="filter-btn" onclick="filterByGroup('design', this)">🎨 Design</button>
+</div>
+
+<div class="grid" id="cardGrid">
+
+<!-- 1. AI Automation & LLM -->
+<div class="card open" data-group="ai">
+  <div class="card-header" onclick="toggleCard(this)">
+    <div class="card-icon">🤖</div>
+    <div class="card-title">
+      <h2>AI Automation & LLM Integration <span class="badge hot">+109% YoY</span></h2>
+      <p>Fastest-growing IT category on Upwork — demand more than doubled year-over-year</p>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="card-body">
+    <div class="growth-bar"><div class="growth-fill hot" style="width:90px"></div>+109% YoY demand growth (AI skills overall)</div>
+    <div class="section-label">🔵 Common Client Search Queries</div>
+    <div class="tags">
+      <span class="tag search">AI automation</span><span class="tag search">ChatGPT integration</span><span class="tag search">LLM developer</span><span class="tag search">AI chatbot development</span><span class="tag search">OpenAI API developer</span><span class="tag search">AI workflow automation</span><span class="tag search">prompt engineer</span><span class="tag search">AI agent builder</span><span class="tag search">custom GPT</span><span class="tag search">n8n automation</span><span class="tag search">Make.com Zapier AI</span>
+    </div>
+    <div class="section-label">🟢 Technology Stack Terms</div>
+    <div class="tags">
+      <span class="tag tech">LangChain</span><span class="tag tech">LlamaIndex</span><span class="tag tech">OpenAI API</span><span class="tag tech">Anthropic Claude API</span><span class="tag tech">RAG pipeline</span><span class="tag tech">vector database</span><span class="tag tech">Pinecone</span><span class="tag tech">Weaviate</span><span class="tag tech">ChromaDB</span><span class="tag tech">FastAPI</span><span class="tag tech">LangGraph</span><span class="tag tech">AutoGen</span><span class="tag tech">CrewAI</span><span class="tag tech">n8n</span><span class="tag tech">Zapier AI</span><span class="tag tech">Make.com</span>
+    </div>
+    <div class="section-label">🟠 Job Description Terms</div>
+    <div class="tags">
+      <span class="tag jd">AI agent development</span><span class="tag jd">autonomous agents</span><span class="tag jd">retrieval-augmented generation</span><span class="tag jd">AI workflow builder</span><span class="tag jd">chatbot development</span><span class="tag jd">conversational AI</span><span class="tag jd">document processing</span><span class="tag jd">AI data annotation</span>
+    </div>
+    <div class="section-label">🟣 Niche / Category-Specific Terms</div>
+    <div class="tags">
+      <span class="tag niche">AI integration (+178% YoY)</span><span class="tag niche">AI chatbot dev (+71% YoY)</span><span class="tag niche">prompt engineering</span><span class="tag niche">fine-tuning</span><span class="tag niche">AI data annotation (+154% YoY)</span><span class="tag niche">semantic search</span><span class="tag niche">multi-agent systems</span>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Full-Stack Web Development -->
+<div class="card open" data-group="dev">
+  <div class="card-header" onclick="toggleCard(this)">
+    <div class="card-icon">💻</div>
+    <div class="card-title">
+      <h2>Full-Stack Web Development <span class="badge">#1 Hired</span></h2>
+      <p>Most hired skill on Upwork — consistently top of the coding category</p>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="card-body">
+    <div class="growth-bar"><div class="growth-fill stable" style="width:60px"></div>Stable high demand — dominant category</div>
+    <div class="section-label">🔵 Common Client Search Queries</div>
+    <div class="tags">
+      <span class="tag search">full stack developer</span><span class="tag search">MERN stack developer</span><span class="tag search">React developer</span><span class="tag search">Next.js developer</span><span class="tag search">web app development</span><span class="tag search">SaaS developer</span><span class="tag search">Node.js developer</span><span class="tag search">Python web developer</span><span class="tag search">JavaScript developer</span><span class="tag search">TypeScript developer</span>
+    </div>
+    <div class="section-label">🟢 Technology Stack Terms</div>
+    <div class="tags">
+      <span class="tag tech">React.js</span><span class="tag tech">Next.js</span><span class="tag tech">Vue.js</span><span class="tag tech">Angular</span><span class="tag tech">Node.js</span><span class="tag tech">Express.js</span><span class="tag tech">NestJS</span><span class="tag tech">Django</span><span class="tag tech">FastAPI</span><span class="tag tech">Flask</span><span class="tag tech">Laravel</span><span class="tag tech">TypeScript</span><span class="tag tech">PostgreSQL</span><span class="tag tech">MongoDB</span><span class="tag tech">Redis</span><span class="tag tech">Tailwind CSS</span><span class="tag tech">GraphQL</span><span class="tag tech">REST API</span>
+    </div>
+    <div class="section-label">🟠 Job Description Terms</div>
+    <div class="tags">
+      <span class="tag jd">SaaS platform</span><span class="tag jd">web application</span><span class="tag jd">MVP development</span><span class="tag jd">API integration</span><span class="tag jd">admin dashboard</span><span class="tag jd">real-time features</span><span class="tag jd">microservices</span><span class="tag jd">responsive design</span>
+    </div>
+    <div class="section-label">🟣 Niche / Category-Specific Terms</div>
+    <div class="tags">
+      <span class="tag niche">MEAN stack</span><span class="tag niche">MERN stack</span><span class="tag niche">WebSocket</span><span class="tag niche">gRPC</span><span class="tag niche">Kafka</span><span class="tag niche">event-driven architecture</span><span class="tag niche">multi-tenant SaaS</span><span class="tag niche">serverless</span>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Backend & API Development -->
+<div class="card" data-group="dev">
+  <div class="card-header" onclick="toggleCard(this)">
+    <div class="card-icon">⚙️</div>
+    <div class="card-title">
+      <h2>Backend & API Development</h2>
+      <p>High-value category — clients specify stack precisely in job posts</p>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="card-body">
+    <div class="section-label">🔵 Common Client Search Queries</div>
+    <div class="tags">
+      <span class="tag search">backend developer</span><span class="tag search">REST API developer</span><span class="tag search">API development</span><span class="tag search">backend engineer</span><span class="tag search">Node.js backend</span><span class="tag search">Python backend</span><span class="tag search">Django REST framework</span><span class="tag search">database optimization</span><span class="tag search">microservices developer</span>
+    </div>
+    <div class="section-label">🟢 Technology Stack Terms</div>
+    <div class="tags">
+      <span class="tag tech">Node.js</span><span class="tag tech">Python</span><span class="tag tech">Django REST Framework</span><span class="tag tech">FastAPI</span><span class="tag tech">Spring Boot</span><span class="tag tech">Go / Golang</span><span class="tag tech">PostgreSQL</span><span class="tag tech">MySQL</span><span class="tag tech">MongoDB</span><span class="tag tech">Redis</span><span class="tag tech">RabbitMQ</span><span class="tag tech">Celery</span><span class="tag tech">JWT</span><span class="tag tech">OAuth2</span><span class="tag tech">GraphQL</span><span class="tag tech">gRPC</span>
+    </div>
+    <div class="section-label">🟠 Job Description Terms</div>
+    <div class="tags">
+      <span class="tag jd">RESTful API design</span><span class="tag jd">database architecture</span><span class="tag jd">authentication systems</span><span class="tag jd">third-party API integrations</span><span class="tag jd">background task processing</span><span class="tag jd">payment gateway integration</span><span class="tag jd">performance optimization</span>
+    </div>
+    <div class="section-label">🟣 Niche / Category-Specific Terms</div>
+    <div class="tags">
+      <span class="tag niche">Stripe integration</span><span class="tag niche">Plaid integration</span><span class="tag niche">Twilio</span><span class="tag niche">SendGrid</span><span class="tag niche">Webhook</span><span class="tag niche">rate limiting</span><span class="tag niche">horizontal scaling</span>
+    </div>
+  </div>
+</div>
+
+<!-- 4. Mobile App Development -->
+<div class="card" data-group="mobile">
+  <div class="card-header" onclick="toggleCard(this)">
+    <div class="card-icon">📱</div>
+    <div class="card-title">
+      <h2>Mobile App Development <span class="badge rising">High Demand</span></h2>
+      <p>Cross-platform frameworks dominate — Flutter & React Native lead searches</p>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="card-body">
+    <div class="section-label">🔵 Common Client Search Queries</div>
+    <div class="tags">
+      <span class="tag search">mobile app developer</span><span class="tag search">Flutter developer</span><span class="tag search">React Native developer</span><span class="tag search">iOS developer</span><span class="tag search">Android developer</span><span class="tag search">cross-platform app</span><span class="tag search">app development</span><span class="tag search">Swift developer</span><span class="tag search">Kotlin developer</span><span class="tag search">AI mobile app</span>
+    </div>
+    <div class="section-label">🟢 Technology Stack Terms</div>
+    <div class="tags">
+      <span class="tag tech">Flutter</span><span class="tag tech">Dart</span><span class="tag tech">React Native</span><span class="tag tech">Swift</span><span class="tag tech">Kotlin</span><span class="tag tech">Firebase</span><span class="tag tech">Firestore</span><span class="tag tech">SQLite</span><span class="tag tech">Xcode</span><span class="tag tech">Android Studio</span><span class="tag tech">Expo</span><span class="tag tech">Redux</span><span class="tag tech">MobX</span>
+    </div>
+    <div class="section-label">🟠 Job Description Terms</div>
+    <div class="tags">
+      <span class="tag jd">iOS & Android</span><span class="tag jd">App Store submission</span><span class="tag jd">Google Play</span><span class="tag jd">push notifications</span><span class="tag jd">offline-first</span><span class="tag jd">in-app purchases</span><span class="tag jd">real-time messaging</span><span class="tag jd">geolocation</span><span class="tag jd">UI/UX design integration</span>
+    </div>
+    <div class="section-label">🟣 Niche / Category-Specific Terms</div>
+    <div class="tags">
+      <span class="tag niche">marketplace app</span><span class="tag niche">on-demand app (Uber-like)</span><span class="tag niche">social media app</span><span class="tag niche">health & fitness app</span><span class="tag niche">fintech app</span><span class="tag niche">e-learning app</span><span class="tag niche">HIPAA compliant</span>
+    </div>
+  </div>
+</div>
+
+<!-- 5. AI / ML & Data Science -->
+<div class="card" data-group="ai data">
+  <div class="card-header" onclick="toggleCard(this)">
+    <div class="card-icon">🧠</div>
+    <div class="card-title">
+      <h2>AI / ML Engineering & Data Science <span class="badge hot">Premium Rates</span></h2>
+      <p>Top pay bracket — ML engineers earn $50–$200/hr; generative AI +22% premium</p>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="card-body">
+    <div class="section-label">🔵 Common Client Search Queries</div>
+    <div class="tags">
+      <span class="tag search">machine learning engineer</span><span class="tag search">AI developer</span><span class="tag search">deep learning</span><span class="tag search">NLP developer</span><span class="tag search">computer vision</span><span class="tag search">generative AI</span><span class="tag search">LLM fine-tuning</span><span class="tag search">AI model deployment</span><span class="tag search">data scientist</span><span class="tag search">predictive model</span>
+    </div>
+    <div class="section-label">🟢 Technology Stack Terms</div>
+    <div class="tags">
+      <span class="tag tech">Python</span><span class="tag tech">PyTorch</span><span class="tag tech">TensorFlow</span><span class="tag tech">Hugging Face</span><span class="tag tech">scikit-learn</span><span class="tag tech">OpenCV</span><span class="tag tech">CUDA</span><span class="tag tech">Jupyter</span><span class="tag tech">MLflow</span><span class="tag tech">Weights & Biases</span><span class="tag tech">ONNX</span><span class="tag tech">Triton</span><span class="tag tech">Vertex AI</span><span class="tag tech">SageMaker</span>
+    </div>
+    <div class="section-label">🟠 Job Description Terms</div>
+    <div class="tags">
+      <span class="tag jd">model training</span><span class="tag jd">model serving</span><span class="tag jd">MLOps pipeline</span><span class="tag jd">data preprocessing</span><span class="tag jd">feature engineering</span><span class="tag jd">A/B testing</span><span class="tag jd">model evaluation</span><span class="tag jd">edge inference</span>
+    </div>
+    <div class="section-label">🟣 Niche / Category-Specific Terms</div>
+    <div class="tags">
+      <span class="tag niche">RAG pipeline</span><span class="tag niche">LLMOps</span><span class="tag niche">image recognition</span><span class="tag niche">object detection</span><span class="tag niche">sentiment analysis</span><span class="tag niche">recommender system</span><span class="tag niche">time-series forecasting</span><span class="tag niche">anomaly detection</span>
+    </div>
+  </div>
+</div>
+
+<!-- 6. Data Analytics & BI -->
+<div class="card" data-group="data">
+  <div class="card-header" onclick="toggleCard(this)">
+    <div class="card-icon">📊</div>
+    <div class="card-title">
+      <h2>Data Analytics & Business Intelligence</h2>
+      <p>Consistently top-hired — data analytics is among Upwork's most-hired skills</p>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="card-body">
+    <div class="section-label">🔵 Common Client Search Queries</div>
+    <div class="tags">
+      <span class="tag search">data analyst</span><span class="tag search">data visualization</span><span class="tag search">business intelligence</span><span class="tag search">Power BI developer</span><span class="tag search">Tableau developer</span><span class="tag search">SQL analyst</span><span class="tag search">Excel automation</span><span class="tag search">dashboard development</span><span class="tag search">Google Analytics</span>
+    </div>
+    <div class="section-label">🟢 Technology Stack Terms</div>
+    <div class="tags">
+      <span class="tag tech">Power BI</span><span class="tag tech">Tableau</span><span class="tag tech">Looker</span><span class="tag tech">SQL</span><span class="tag tech">Python (Pandas)</span><span class="tag tech">Snowflake</span><span class="tag tech">dbt</span><span class="tag tech">BigQuery</span><span class="tag tech">Databricks</span><span class="tag tech">Apache Spark</span><span class="tag tech">Airflow</span><span class="tag tech">Excel / VBA</span><span class="tag tech">Google Sheets</span>
+    </div>
+    <div class="section-label">🟠 Job Description Terms</div>
+    <div class="tags">
+      <span class="tag jd">interactive dashboard</span><span class="tag jd">KPI reporting</span><span class="tag jd">data pipeline</span><span class="tag jd">ETL process</span><span class="tag jd">data modeling</span><span class="tag jd">data warehouse</span><span class="tag jd">ad-hoc analysis</span>
+    </div>
+    <div class="section-label">🟣 Niche / Category-Specific Terms</div>
+    <div class="tags">
+      <span class="tag niche">cohort analysis</span><span class="tag niche">funnel analysis</span><span class="tag niche">marketing attribution</span><span class="tag niche">financial modeling</span><span class="tag niche">churn prediction</span><span class="tag niche">real-time analytics</span>
+    </div>
+  </div>
+</div>
+
+<!-- 7. Cloud & DevOps -->
+<div class="card" data-group="infra">
+  <div class="card-header" onclick="toggleCard(this)">
+    <div class="card-icon">☁️</div>
+    <div class="card-title">
+      <h2>Cloud & DevOps Engineering <span class="badge rising">Low Supply</span></h2>
+      <p>Strong demand, relatively thin supply of senior practitioners on the platform</p>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="card-body">
+    <div class="section-label">🔵 Common Client Search Queries</div>
+    <div class="tags">
+      <span class="tag search">DevOps engineer</span><span class="tag search">AWS architect</span><span class="tag search">cloud engineer</span><span class="tag search">Kubernetes engineer</span><span class="tag search">Docker specialist</span><span class="tag search">CI/CD pipeline</span><span class="tag search">Terraform developer</span><span class="tag search">cloud migration</span><span class="tag search">infrastructure as code</span><span class="tag search">Linux admin</span>
+    </div>
+    <div class="section-label">🟢 Technology Stack Terms</div>
+    <div class="tags">
+      <span class="tag tech">AWS</span><span class="tag tech">Azure</span><span class="tag tech">Google Cloud (GCP)</span><span class="tag tech">Docker</span><span class="tag tech">Kubernetes</span><span class="tag tech">Terraform</span><span class="tag tech">Ansible</span><span class="tag tech">Jenkins</span><span class="tag tech">GitHub Actions</span><span class="tag tech">GitLab CI/CD</span><span class="tag tech">Nginx</span><span class="tag tech">Prometheus</span><span class="tag tech">Grafana</span><span class="tag tech">Helm</span>
+    </div>
+    <div class="section-label">🟠 Job Description Terms</div>
+    <div class="tags">
+      <span class="tag jd">infrastructure setup</span><span class="tag jd">cloud architecture</span><span class="tag jd">containerization</span><span class="tag jd">auto-scaling</span><span class="tag jd">zero-downtime deployment</span><span class="tag jd">monitoring & alerting</span><span class="tag jd">cost optimization</span><span class="tag jd">disaster recovery</span>
+    </div>
+    <div class="section-label">🟣 Niche / Category-Specific Terms</div>
+    <div class="tags">
+      <span class="tag niche">serverless (Lambda)</span><span class="tag niche">ECS / EKS</span><span class="tag niche">VPC setup</span><span class="tag niche">DevSecOps</span><span class="tag niche">cloud migration</span><span class="tag niche">FinOps</span><span class="tag niche">site reliability engineering</span>
+    </div>
+  </div>
+</div>
+
+<!-- 8. Cybersecurity -->
+<div class="card" data-group="security">
+  <div class="card-header" onclick="toggleCard(this)">
+    <div class="card-icon">🔐</div>
+    <div class="card-title">
+      <h2>Cybersecurity & Compliance <span class="badge">$40–$90/hr</span></h2>
+      <p>Premium rates — penetration testing, compliance audits, and security architecture</p>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="card-body">
+    <div class="section-label">🔵 Common Client Search Queries</div>
+    <div class="tags">
+      <span class="tag search">cybersecurity expert</span><span class="tag search">penetration testing</span><span class="tag search">pentest</span><span class="tag search">vulnerability assessment</span><span class="tag search">security audit</span><span class="tag search">ISO 27001 compliance</span><span class="tag search">SOC 2 audit</span><span class="tag search">GDPR compliance</span><span class="tag search">cloud security</span>
+    </div>
+    <div class="section-label">🟢 Technology Stack Terms</div>
+    <div class="tags">
+      <span class="tag tech">Metasploit</span><span class="tag tech">Burp Suite</span><span class="tag tech">Nessus</span><span class="tag tech">OWASP ZAP</span><span class="tag tech">Kali Linux</span><span class="tag tech">Wireshark</span><span class="tag tech">Splunk</span><span class="tag tech">SIEM</span><span class="tag tech">IDS/IPS</span><span class="tag tech">WAF</span><span class="tag tech">EnCase</span><span class="tag tech">FTK</span>
+    </div>
+    <div class="section-label">🟠 Job Description Terms</div>
+    <div class="tags">
+      <span class="tag jd">threat modeling</span><span class="tag jd">risk assessment</span><span class="tag jd">incident response</span><span class="tag jd">malware analysis</span><span class="tag jd">security operations center</span><span class="tag jd">vulnerability management</span><span class="tag jd">GRC platform</span>
+    </div>
+    <div class="section-label">🟣 Niche / Category-Specific Terms</div>
+    <div class="tags">
+      <span class="tag niche">HIPAA</span><span class="tag niche">PCI-DSS</span><span class="tag niche">NIST framework</span><span class="tag niche">zero-trust architecture</span><span class="tag niche">AI-driven threat detection</span><span class="tag niche">digital forensics</span><span class="tag niche">red team / blue team</span>
+    </div>
+  </div>
+</div>
+
+<!-- 9. E-commerce Development -->
+<div class="card" data-group="ecom dev">
+  <div class="card-header" onclick="toggleCard(this)">
+    <div class="card-icon">🛒</div>
+    <div class="card-title">
+      <h2>E-commerce Development <span class="badge hot">+130% YoY</span></h2>
+      <p>E-commerce management was one of Upwork's fastest-growing skills in 2026</p>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="card-body">
+    <div class="growth-bar"><div class="growth-fill hot" style="width:80px"></div>+130% YoY growth (e-commerce management)</div>
+    <div class="section-label">🔵 Common Client Search Queries</div>
+    <div class="tags">
+      <span class="tag search">Shopify developer</span><span class="tag search">WooCommerce developer</span><span class="tag search">Magento developer</span><span class="tag search">ecommerce store setup</span><span class="tag search">Shopify Plus</span><span class="tag search">BigCommerce</span><span class="tag search">ecommerce customization</span><span class="tag search">online store developer</span>
+    </div>
+    <div class="section-label">🟢 Technology Stack Terms</div>
+    <div class="tags">
+      <span class="tag tech">Shopify / Shopify Plus</span><span class="tag tech">WooCommerce</span><span class="tag tech">Magento 2</span><span class="tag tech">BigCommerce</span><span class="tag tech">Liquid (Shopify)</span><span class="tag tech">Klaviyo</span><span class="tag tech">Stripe</span><span class="tag tech">PayPal</span><span class="tag tech">Algolia</span><span class="tag tech">Contentful</span>
+    </div>
+    <div class="section-label">🟠 Job Description Terms</div>
+    <div class="tags">
+      <span class="tag jd">store setup</span><span class="tag jd">theme customization</span><span class="tag jd">custom app development</span><span class="tag jd">payment integration</span><span class="tag jd">inventory management</span><span class="tag jd">page speed optimization</span><span class="tag jd">conversion rate optimization</span>
+    </div>
+    <div class="section-label">🟣 Niche / Category-Specific Terms</div>
+    <div class="tags">
+      <span class="tag niche">headless commerce</span><span class="tag niche">B2B ecommerce</span><span class="tag niche">D2C store</span><span class="tag niche">multi-store setup</span><span class="tag niche">Shopify Hydrogen</span><span class="tag niche">Shopify app partner</span><span class="tag niche">dropshipping</span>
+    </div>
+  </div>
+</div>
+
+<!-- 10. CMS / WordPress -->
+<div class="card" data-group="dev ecom">
+  <div class="card-header" onclick="toggleCard(this)">
+    <div class="card-icon">🌐</div>
+    <div class="card-title">
+      <h2>WordPress & CMS Development</h2>
+      <p>High-volume category — Upwork lists it as a dedicated project browse area</p>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="card-body">
+    <div class="section-label">🔵 Common Client Search Queries</div>
+    <div class="tags">
+      <span class="tag search">WordPress developer</span><span class="tag search">WordPress customization</span><span class="tag search">WordPress plugin developer</span><span class="tag search">Webflow developer</span><span class="tag search">Elementor expert</span><span class="tag search">website redesign</span><span class="tag search">CMS developer</span><span class="tag search">Squarespace developer</span>
+    </div>
+    <div class="section-label">🟢 Technology Stack Terms</div>
+    <div class="tags">
+      <span class="tag tech">WordPress</span><span class="tag tech">Webflow</span><span class="tag tech">Elementor</span><span class="tag tech">Divi</span><span class="tag tech">WooCommerce</span><span class="tag tech">PHP</span><span class="tag tech">ACF</span><span class="tag tech">Squarespace</span><span class="tag tech">Wix</span><span class="tag tech">HubSpot CMS</span><span class="tag tech">Framer</span>
+    </div>
+    <div class="section-label">🟠 Job Description Terms</div>
+    <div class="tags">
+      <span class="tag jd">custom theme development</span><span class="tag jd">plugin development</span><span class="tag jd">site migration</span><span class="tag jd">security hardening</span><span class="tag jd">site speed optimization</span><span class="tag jd">SEO-friendly build</span><span class="tag jd">website maintenance</span>
+    </div>
+    <div class="section-label">🟣 Niche / Category-Specific Terms</div>
+    <div class="tags">
+      <span class="tag niche">Figma to WordPress</span><span class="tag niche">Figma to Webflow</span><span class="tag niche">LMS (LearnDash)</span><span class="tag niche">multisite</span><span class="tag niche">staging environment</span><span class="tag niche">headless WordPress</span>
+    </div>
+  </div>
+</div>
+
+<!-- 11. UI/UX Design -->
+<div class="card" data-group="design">
+  <div class="card-header" onclick="toggleCard(this)">
+    <div class="card-icon">🎨</div>
+    <div class="card-title">
+      <h2>UI/UX Design & Product Design <span class="badge rising">Rising</span></h2>
+      <p>Demand strong; AI-assisted design tools (Figma AI, Framer) redefine expectations</p>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="card-body">
+    <div class="section-label">🔵 Common Client Search Queries</div>
+    <div class="tags">
+      <span class="tag search">UI/UX designer</span><span class="tag search">Figma designer</span><span class="tag search">product designer</span><span class="tag search">app UI design</span><span class="tag search">UX research</span><span class="tag search">wireframing</span><span class="tag search">design system</span><span class="tag search">web designer</span><span class="tag search">mobile UI design</span>
+    </div>
+    <div class="section-label">🟢 Technology Stack Terms</div>
+    <div class="tags">
+      <span class="tag tech">Figma</span><span class="tag tech">Adobe XD</span><span class="tag tech">Sketch</span><span class="tag tech">InVision</span><span class="tag tech">Framer</span><span class="tag tech">Zeplin</span><span class="tag tech">Miro</span><span class="tag tech">Maze</span><span class="tag tech">Hotjar</span><span class="tag tech">Lottie</span>
+    </div>
+    <div class="section-label">🟠 Job Description Terms</div>
+    <div class="tags">
+      <span class="tag jd">user research</span><span class="tag jd">usability testing</span><span class="tag jd">information architecture</span><span class="tag jd">prototyping</span><span class="tag jd">pixel-perfect handoff</span><span class="tag jd">design tokens</span><span class="tag jd">accessibility (WCAG)</span>
+    </div>
+    <div class="section-label">🟣 Niche / Category-Specific Terms</div>
+    <div class="tags">
+      <span class="tag niche">design system</span><span class="tag niche">SaaS dashboard design</span><span class="tag niche">app store creative</span><span class="tag niche">brand identity</span><span class="tag niche">no-code design (Webflow)</span><span class="tag niche">pitch deck design</span>
+    </div>
+  </div>
+</div>
+
+<!-- 12. QA & Testing -->
+<div class="card" data-group="dev">
+  <div class="card-header" onclick="toggleCard(this)">
+    <div class="card-icon">🧪</div>
+    <div class="card-title">
+      <h2>QA & Software Testing</h2>
+      <p>High-value niche — low proposal competition but premium category rates</p>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="card-body">
+    <div class="section-label">🔵 Common Client Search Queries</div>
+    <div class="tags">
+      <span class="tag search">QA engineer</span><span class="tag search">software tester</span><span class="tag search">automated testing</span><span class="tag search">manual testing</span><span class="tag search">Selenium developer</span><span class="tag search">Cypress testing</span><span class="tag search">performance testing</span><span class="tag search">test automation framework</span>
+    </div>
+    <div class="section-label">🟢 Technology Stack Terms</div>
+    <div class="tags">
+      <span class="tag tech">Selenium</span><span class="tag tech">Cypress</span><span class="tag tech">Playwright</span><span class="tag tech">Appium</span><span class="tag tech">Jest</span><span class="tag tech">Pytest</span><span class="tag tech">JMeter</span><span class="tag tech">k6</span><span class="tag tech">Postman</span><span class="tag tech">JIRA</span><span class="tag tech">TestRail</span>
+    </div>
+    <div class="section-label">🟠 Job Description Terms</div>
+    <div class="tags">
+      <span class="tag jd">test plan</span><span class="tag jd">bug reporting</span><span class="tag jd">regression testing</span><span class="tag jd">load testing</span><span class="tag jd">API testing</span><span class="tag jd">mobile app testing</span><span class="tag jd">CI/CD integration</span>
+    </div>
+    <div class="section-label">🟣 Niche / Category-Specific Terms</div>
+    <div class="tags">
+      <span class="tag niche">ISTQB certified</span><span class="tag niche">end-to-end testing</span><span class="tag niche">smoke testing</span><span class="tag niche">accessibility testing</span><span class="tag niche">security testing</span>
+    </div>
+  </div>
+</div>
+
+<!-- 13. Blockchain & Web3 -->
+<div class="card" data-group="dev">
+  <div class="card-header" onclick="toggleCard(this)">
+    <div class="card-icon">🔗</div>
+    <div class="card-title">
+      <h2>Blockchain & Web3 Development</h2>
+      <p>Niche with premium rates — DeFi, NFT, and smart contract work remains active</p>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="card-body">
+    <div class="section-label">🔵 Common Client Search Queries</div>
+    <div class="tags">
+      <span class="tag search">blockchain developer</span><span class="tag search">smart contract developer</span><span class="tag search">Solidity developer</span><span class="tag search">Web3 developer</span><span class="tag search">DeFi developer</span><span class="tag search">NFT development</span><span class="tag search">Ethereum developer</span><span class="tag search">crypto developer</span>
+    </div>
+    <div class="section-label">🟢 Technology Stack Terms</div>
+    <div class="tags">
+      <span class="tag tech">Solidity</span><span class="tag tech">Ethereum</span><span class="tag tech">Solana</span><span class="tag tech">Hardhat</span><span class="tag tech">Truffle</span><span class="tag tech">Web3.js</span><span class="tag tech">Ethers.js</span><span class="tag tech">IPFS</span><span class="tag tech">Chainlink</span><span class="tag tech">Rust (Solana)</span>
+    </div>
+    <div class="section-label">🟠 Job Description Terms</div>
+    <div class="tags">
+      <span class="tag jd">smart contract audit</span><span class="tag jd">token development</span><span class="tag jd">DApp development</span><span class="tag jd">wallet integration</span><span class="tag jd">gas optimization</span><span class="tag jd">multi-sig wallet</span>
+    </div>
+    <div class="section-label">🟣 Niche / Category-Specific Terms</div>
+    <div class="tags">
+      <span class="tag niche">ERC-20 / ERC-721</span><span class="tag niche">DAO</span><span class="tag niche">staking platform</span><span class="tag niche">DEX development</span><span class="tag niche">cross-chain bridge</span><span class="tag niche">Layer 2</span>
+    </div>
+  </div>
+</div>
+
+<!-- 14. Embedded / IoT / Hardware -->
+<div class="card" data-group="dev">
+  <div class="card-header" onclick="toggleCard(this)">
+    <div class="card-icon">🔌</div>
+    <div class="card-title">
+      <h2>Embedded Systems, IoT & Hardware Engineering</h2>
+      <p>Niche but high-value — very thin supply of senior freelancers</p>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="card-body">
+    <div class="section-label">🔵 Common Client Search Queries</div>
+    <div class="tags">
+      <span class="tag search">embedded systems developer</span><span class="tag search">firmware developer</span><span class="tag search">IoT developer</span><span class="tag search">Arduino developer</span><span class="tag search">Raspberry Pi</span><span class="tag search">PCB design</span><span class="tag search">FPGA developer</span><span class="tag search">hardware engineer</span>
+    </div>
+    <div class="section-label">🟢 Technology Stack Terms</div>
+    <div class="tags">
+      <span class="tag tech">C / C++</span><span class="tag tech">Embedded Linux</span><span class="tag tech">FreeRTOS</span><span class="tag tech">Zephyr OS</span><span class="tag tech">MQTT</span><span class="tag tech">BLE</span><span class="tag tech">Zigbee</span><span class="tag tech">LoRa</span><span class="tag tech">Altium Designer</span><span class="tag tech">KiCad</span>
+    </div>
+    <div class="section-label">🟠 Job Description Terms</div>
+    <div class="tags">
+      <span class="tag jd">firmware development</span><span class="tag jd">PCB layout</span><span class="tag jd">hardware-software integration</span><span class="tag jd">pre-certification testing</span><span class="tag jd">edge computing</span><span class="tag jd">sensor integration</span>
+    </div>
+    <div class="section-label">🟣 Niche / Category-Specific Terms</div>
+    <div class="tags">
+      <span class="tag niche">FCC / CE certification</span><span class="tag niche">EMC / EMI</span><span class="tag niche">AI/ML on edge</span><span class="tag niche">SCADA</span><span class="tag niche">industrial IoT</span><span class="tag niche">home automation</span>
+    </div>
+  </div>
+</div>
+
+</div><!-- /grid -->
+
+<footer>
+  <p><strong>Sources:</strong> Upwork In-Demand Skills 2026 Report (Feb 2026) · Upwork /hire/* live category pages (Aug–Sep 2026) · GigRadar agency proposal data (Dec 2025–Feb 2026) · Vibeworker niche analysis (Jul 2026) · Upwork.com/cat/dev-it category browse. Growth figures reflect Upwork freelancer earnings YoY (Jan–Dec 2025 vs prior year). Compiled for Upwork strategy analysis purposes.</p>
+</footer>
+
+<script>
+  function toggleCard(header) {
+    header.parentElement.classList.toggle('open');
+  }
+
+  let activeGroup = 'all';
+
+  function filterByGroup(group, btn) {
+    activeGroup = group;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function filterCards() { applyFilters(); }
+
+  function applyFilters() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    document.querySelectorAll('.card').forEach(card => {
+      const groupMatch = activeGroup === 'all' || (card.dataset.group || '').includes(activeGroup);
+      const textMatch = !query || card.innerText.toLowerCase().includes(query);
+      card.classList.toggle('hidden', !(groupMatch && textMatch));
+    });
+  }
+</script>
+</body>
+</html>
