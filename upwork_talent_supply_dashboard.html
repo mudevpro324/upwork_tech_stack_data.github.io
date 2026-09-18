@@ -376,8 +376,8 @@
         <thead>
           <tr>
             <th data-sort="country">Country <span class="arrow"></span></th>
-            <th data-sort="supply" class="numeric">Total Supply <span class="arrow"></span></th>
-            <th data-sort="stacks" class="numeric">Stacks Covered <span class="arrow"></span></th>
+            <th data-sort="supply" class="numeric" id="supplyTh">Total Headcount <span class="arrow"></span></th>
+            <th data-sort="stacks" class="numeric" id="stacksTh">Stacks Covered <span class="arrow"></span></th>
             <th data-sort="coverage">Coverage</th>
             <th data-sort="rate" class="numeric">Median Rate <span class="arrow"></span></th>
             <th>Strongest Stack</th>
@@ -394,9 +394,9 @@
   </div>
 
   <p class="footer">
-    All figures are aggregate talent supply hits derived from Upwork talent search results, not official Upwork headcounts.
+    The "Headcount" column shows each country's total talent supply across all stacks by default. Select a stack chip above and the column switches to that stack's headcount per country — the table filters to countries with supply in that stack and re-sorts by it.
     "Stacks covered" counts the number of tracked stacks with ≥1 supply hit for that country. Median rate is the median hourly USD rate where available.
-    Click any column header to sort. Use the chips above to filter countries by a specific stack.
+    All figures are aggregate talent supply hits derived from Upwork talent search results, not official Upwork headcounts. Click any column header to sort.
   </p>
 </main>
 
@@ -487,10 +487,20 @@ STACKS.forEach(name => {
   chip.addEventListener('click', () => {
     if (activeStackFilter === name) { activeStackFilter = null; chip.classList.remove('active'); }
     else { document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); activeStackFilter = name; chip.classList.add('active'); }
+    updateSupplyColumnHeader();
     render();
   });
   chipsContainer.appendChild(chip);
 });
+
+// Update the headcount column header based on active stack filter
+function updateSupplyColumnHeader() {
+  const th = document.getElementById('supplyTh');
+  if (!th) return;
+  // preserve the arrow span
+  const arrow = th.querySelector('.arrow') ? th.querySelector('.arrow').textContent : '';
+  th.innerHTML = (activeStackFilter ? activeStackFilter + ' Headcount' : 'Total Headcount') + ' <span class="arrow">' + arrow + '</span>';
+}
 
 // === Table render ===
 let sortKey = 'supply', sortAsc = false;
@@ -529,7 +539,11 @@ function render() {
   rows.sort((a,b) => {
     let av, bv;
     if (sortKey === 'country') { av=a.country; bv=b.country; return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av); }
-    if (sortKey === 'supply') { av=a.total_supply_hits; bv=b.total_supply_hits; }
+    if (sortKey === 'supply') {
+      // sort by total headcount, or by the selected stack's headcount if a chip is active
+      if (activeStackFilter) { av=(PER[a.country]&&PER[a.country][activeStackFilter])||0; bv=(PER[b.country]&&PER[b.country][activeStackFilter])||0; }
+      else { av=a.total_supply_hits; bv=b.total_supply_hits; }
+    }
     else if (sortKey === 'stacks') { av=a.stacks_with_supply; bv=b.stacks_with_supply; }
     else if (sortKey === 'rate') { av=a.median_rate||0; bv=b.median_rate||0; }
     else if (sortKey === 'strongest') { av=a.strongest_stack_count||0; bv=b.strongest_stack_count||0; }
@@ -551,9 +565,18 @@ function render() {
       const rateVal = c.median_rate != null ? '$' + c.median_rate.toFixed(2) : '—';
       const strongTxt = c.strongest_stack ? `<span class="strong-stack"><b>${c.strongest_stack}</b></span>` : '<span class="strong-stack">—</span>';
       const strongCnt = c.strongest_stack_count ? `<span class="num-strong">${c.strongest_stack_count.toLocaleString()}</span>` : '<span class="num-zero">—</span>';
+      // Headcount cell: per-stack count when a chip is active, otherwise total headcount
+      let headcountVal, headcountCls;
+      if (activeStackFilter) {
+        headcountVal = (PER[c.country] && PER[c.country][activeStackFilter]) || 0;
+        headcountCls = headcountVal > 0 ? 'num-strong' : 'num-zero';
+      } else {
+        headcountVal = c.total_supply_hits;
+        headcountCls = 'num-strong';
+      }
       return `<tr>
         <td><div class="country-cell">${flagHtml}${c.country}</div></td>
-        <td class="numeric"><span class="num-strong">${c.total_supply_hits.toLocaleString()}</span></td>
+        <td class="numeric"><span class="${headcountCls}">${headcountVal.toLocaleString()}</span></td>
         <td class="numeric">${c.stacks_with_supply}</td>
         <td><span class="coverage-bar"><span class="coverage-fill ${ct}" style="width:${pct}%"></span></span>${pct}%</td>
         <td class="numeric ${rateCls}">${rateVal}</td>
@@ -596,6 +619,7 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   document.querySelectorAll('th .arrow').forEach(a => a.textContent = '');
   document.querySelector('th[data-sort="supply"] .arrow').textContent = '▼';
+  updateSupplyColumnHeader();
   render();
 });
 
@@ -611,11 +635,13 @@ document.getElementById('exportBtn').addEventListener('click', () => {
     const matchStack = activeStackFilter === null || ((PER[c.country] && PER[c.country][activeStackFilter]) || 0) > 0;
     return matchSearch && matchCov && matchMin && matchStack;
   });
-  const headers = ["Country","ISO2","Total Supply Hits","Stacks Covered","Median Rate USD/hr","Strongest Stack","Strongest Stack Count"];
-  const csv = [headers.join(',')].concat(rows.map(c =>
-    [c.country,c.iso2,c.total_supply_hits,c.stacks_with_supply,c.median_rate!=null?c.median_rate:'',c.strongest_stack,c.strongest_stack_count||0]
-      .map(v => { const s = String(v); return s.includes(',')||s.includes('"') ? `"${s.replace(/"/g,'""')}"` : s; }).join(',')
-  )).join('\n');
+  const headColName = activeStackFilter ? (activeStackFilter + ' Headcount') : 'Total Headcount';
+  const headers = ["Country","ISO2",headColName,"Stacks Covered","Median Rate USD/hr","Strongest Stack","Strongest Stack Count"];
+  const csv = [headers.join(',')].concat(rows.map(c => {
+    const headcount = activeStackFilter ? ((PER[c.country] && PER[c.country][activeStackFilter]) || 0) : c.total_supply_hits;
+    return [c.country,c.iso2,headcount,c.stacks_with_supply,c.median_rate!=null?c.median_rate:'',c.strongest_stack,c.strongest_stack_count||0]
+      .map(v => { const s = String(v); return s.includes(',')||s.includes('"') ? `"${s.replace(/"/g,'""')}"` : s; }).join(',');
+  })).join('\n');
   const blob = new Blob([csv], { type: 'text/csv' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
